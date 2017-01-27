@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.wen.bangumi.Bangumi;
 import com.wen.bangumi.event.Event;
-import com.wen.bangumi.util.preferences.UserPreferencesUtils;
+import com.wen.bangumi.user.UserPreferences;
 import com.wen.bangumi.util.Injection;
 import com.wen.bangumi.calendaritem.DailyCalendarFragment;
 import com.wen.bangumi.calendaritem.DailyCalendarPresenter;
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (UserPreferencesUtils.isLogin(Bangumi.getInstance()))
+        if (UserPreferences.isLogin(Bangumi.getInstance()))
             onLoginEvent(new Event.LoginEvent());
     }
 
@@ -116,10 +116,10 @@ public class MainActivity extends AppCompatActivity {
         TextView userInfo = (TextView) navHeaderView.findViewById(R.id.user_info_text_view);
         CircleImageView circleImageView = (CircleImageView) navHeaderView.findViewById(R.id.circle_imageview);
 
-        username.setText(UserPreferencesUtils.getNickName(Bangumi.getInstance()));
-        userInfo.setText(UserPreferencesUtils.getSign(Bangumi.getInstance()));
+        username.setText(UserPreferences.getNickName(Bangumi.getInstance()));
+        userInfo.setText(UserPreferences.getSign(Bangumi.getInstance()));
         Picasso.with(this)
-                .load(UserPreferencesUtils.getLargeAvatar(Bangumi.getInstance()))
+                .load(UserPreferences.getLargeAvatar(Bangumi.getInstance()))
                 .config(Bitmap.Config.RGB_565)
                 .into(circleImageView);
 
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         //先判断有没有登录
-                        if (!UserPreferencesUtils.isLogin(Bangumi.getInstance()))
+                        if (!UserPreferences.isLogin(Bangumi.getInstance()))
                             startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         else
                             startActivity(new Intent(MainActivity.this, HomePageActivity.class));
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                             // 时光机功能
                             case R.id.time_machine_navigation_menu_item:
                                 //先判断有没有登录
-                                if (!UserPreferencesUtils.isLogin(Bangumi.getInstance())) {
+                                if (!UserPreferences.isLogin(Bangumi.getInstance())) {
                                     Toast.makeText(
                                             MainActivity.this,
                                             getString(R.string.not_login_text),

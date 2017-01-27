@@ -7,7 +7,7 @@ import com.wen.bangumi.Bangumi;
 import com.wen.bangumi.data.LoginRepository;
 import com.wen.bangumi.event.Event;
 import com.wen.bangumi.responseentity.Token;
-import com.wen.bangumi.util.preferences.UserPreferencesUtils;
+import com.wen.bangumi.user.UserPreferences;
 import com.wen.bangumi.util.scheduler.BaseSchedulerProvider;
 
 import org.greenrobot.eventbus.EventBus;
@@ -82,7 +82,7 @@ public class LoginPresenter implements LoginContract.Presenter{
                             public void accept(Token token) throws Exception {
 
                                 //先存储Bangumi返回的个人数据
-                                UserPreferencesUtils.saveToken(Bangumi.getInstance(), token);
+                                UserPreferences.saveToken(Bangumi.getInstance(), token);
 
                                 //发送事件，提醒nav_view以及user_home_page读取数据
                                 EventBus.getDefault().postSticky(new Event.LoginEvent());

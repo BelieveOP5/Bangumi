@@ -1,7 +1,6 @@
 package com.wen.bangumi.user;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.wen.bangumi.base.Constants;

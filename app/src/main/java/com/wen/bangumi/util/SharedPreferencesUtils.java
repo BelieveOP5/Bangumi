@@ -1,4 +1,4 @@
-package com.wen.bangumi.util.preferences;
+package com.wen.bangumi.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
