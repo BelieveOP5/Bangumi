@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Bangumi</string>
+
+    <string name="home_page">首页</string>
+    <string name="bangumi_onAir">每日放送</string>
+    <string name="time_machine">时光机</string>
+
+    <!--登陆-->
+    <string name="login_email_hint">邮箱</string>
+    <string name="login_password_hint">密码</string>
+    <string name="sign_up_text">注册账号</string>
+    <string name="sign_in_text">登录</string>
+
+    <string name="not_login_text">你还没有登录，先登录！</string>
+
+    <string name="doing">在看</string>
+    <string name="collect">看过</string>
+    <string name="wish">想看</string>
+    <string name="on_hold">搁置</string>
+    <string name="dropped">抛弃</string>
+
+    <string name="default_user_name">Default</string>
+    <string name="default_user_info">Defaule Information</string>
+
+    <!-- 每日放送 -->
+    <string name="monday">一</string>
+    <string name="tuesday">二</string>
+    <string name="wednesday">三</string>
+    <string name="thursday">四</string>
+    <string name="friday">五</string>
+    <string name="saturday">六</string>
+    <string name="sunday">日</string>
+
+    <string name="no_Bangumi_text">今天没有新番更新哟！(＾Ｕ＾)ノ~ＹＯ</string>
+
+</resources>

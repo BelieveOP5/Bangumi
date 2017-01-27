@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.wen.bangumi.util.ScrollChildSwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <RelativeLayout
+        android:id="@+id/bangumiContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:orientation="vertical">
+        
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/bangumiList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:id="@+id/noBangumi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+            
+            <TextView
+                android:id="@+id/noBangumiText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_Bangumi_text"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</com.wen.bangumi.util.ScrollChildSwipeRefreshLayout>

@@ -1,0 +1,35 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wen.bangumi">
+
+    <application
+        android:name=".Bangumi"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <!-- 在应用清单中，将 <application> 元素设置为使用 appcompat 的其中一个 NoActionBar 主题。
+        使用这些主题中的一个可以防止应用使用原生 ActionBar 类提供应用栏。  -->
+
+        <activity
+            android:name=".calendar.MainActivity"
+            android:theme="@style/ColorTranslucentTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".login.LoginActivity"
+            android:theme="@style/ColorTranslucentTheme" />
+
+        <activity
+            android:name=".user.UserHomePageActivity"
+            android:theme="@style/ColorTranslucentTheme" />
+
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+</manifest>

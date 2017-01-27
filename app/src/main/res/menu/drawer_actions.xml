@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/onAir_navigation_menu_item"
+        android:title="@string/home_page" />
+
+    <item
+        android:id="@+id/time_machine_navigation_menu_item"
+        android:title="@string/time_machine" />
+
+</menu>
