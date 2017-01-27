@@ -43,9 +43,9 @@ public class UserHomePageActivity extends AppCompatActivity {
         strList.add(getString(R.string.on_hold));
         strList.add(getString(R.string.dropped));
 
-        final ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        final UserHomePageAdapter userHomePageAdapter = new UserHomePageAdapter(getSupportFragmentManager());
         for (int i = 0; i < strList.size(); ++i) {
-            viewPagerAdapter.addItem(new Fragment(), strList.get(i));
+            userHomePageAdapter.addItem(new Fragment(), strList.get(i));
         }
 
         final TabLayout mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -53,7 +53,7 @@ public class UserHomePageActivity extends AppCompatActivity {
         mViewPager.post(new Runnable() {
             @Override
             public void run() {
-                mViewPager.setAdapter(viewPagerAdapter);
+                mViewPager.setAdapter(userHomePageAdapter);
                 mTabLayout.setupWithViewPager(mViewPager);
             }
         });
