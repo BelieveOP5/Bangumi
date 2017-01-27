@@ -11,10 +11,19 @@ public interface LoginContract {
 
     interface View extends BaseView<Presenter> {
 
+        /**
+         * 登录完成，关闭登录界面
+         */
         void loginActivityFinish();
 
+        /**
+         * 显示账户名不能为空的消息
+         */
         void showEmailEmptyMessage();
 
+        /**
+         * 显示密码不能为空的消息
+         */
         void showPwdEmptyMessage();
 
     }

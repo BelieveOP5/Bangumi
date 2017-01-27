@@ -19,7 +19,7 @@ import java.util.List;
  * Created by BelieveOP5 on 2017/1/26.
  */
 
-public class UserHomePageActivity extends AppCompatActivity {
+public class HomePageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,9 +43,9 @@ public class UserHomePageActivity extends AppCompatActivity {
         strList.add(getString(R.string.on_hold));
         strList.add(getString(R.string.dropped));
 
-        final UserHomePageAdapter userHomePageAdapter = new UserHomePageAdapter(getSupportFragmentManager());
+        final ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         for (int i = 0; i < strList.size(); ++i) {
-            userHomePageAdapter.addItem(new Fragment(), strList.get(i));
+            viewPagerAdapter.addItem(new Fragment(), strList.get(i));
         }
 
         final TabLayout mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -53,7 +53,7 @@ public class UserHomePageActivity extends AppCompatActivity {
         mViewPager.post(new Runnable() {
             @Override
             public void run() {
-                mViewPager.setAdapter(userHomePageAdapter);
+                mViewPager.setAdapter(viewPagerAdapter);
                 mTabLayout.setupWithViewPager(mViewPager);
             }
         });

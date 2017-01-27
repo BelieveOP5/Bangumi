@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.wen.bangumi.api.BangumiApi;
+import com.wen.bangumi.api.bangumi.BangumiApi;
 import com.wen.bangumi.responseentity.Token;
 
 import java.util.concurrent.TimeUnit;

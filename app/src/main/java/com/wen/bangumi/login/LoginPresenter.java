@@ -7,7 +7,7 @@ import com.wen.bangumi.Bangumi;
 import com.wen.bangumi.data.LoginRepository;
 import com.wen.bangumi.event.Event;
 import com.wen.bangumi.responseentity.Token;
-import com.wen.bangumi.user.UserPreferences;
+import com.wen.bangumi.util.preferences.UserPreferencesUtils;
 import com.wen.bangumi.util.scheduler.BaseSchedulerProvider;
 
 import org.greenrobot.eventbus.EventBus;
@@ -80,22 +80,27 @@ public class LoginPresenter implements LoginContract.Presenter{
                         new Consumer<Token>() {
                             @Override
                             public void accept(Token token) throws Exception {
-                                // TODO: 2017/1/25 存储返回的Token
-                                UserPreferences.saveToken(Bangumi.getInstance(), token);
+
+                                //先存储Bangumi返回的个人数据
+                                UserPreferencesUtils.saveToken(Bangumi.getInstance(), token);
+
+                                //发送事件，提醒nav_view以及user_home_page读取数据
                                 EventBus.getDefault().postSticky(new Event.LoginEvent());
+
+                                //关闭当前登录界面
                                 mLoginView.loginActivityFinish();
                             }
                         },
                         new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
-
+                                // TODO: 2017/1/27 检验错误，对错误进行判断
                             }
                         },
                         new Action() {
                             @Override
                             public void run() throws Exception {
-                                // TODO: 2017/1/25 打开新的Activity
+                                // TODO: 2017/1/27 关闭登录中提示框
                             }
                         }
                 );

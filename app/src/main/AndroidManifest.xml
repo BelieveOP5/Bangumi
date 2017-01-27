@@ -25,7 +25,7 @@
             android:theme="@style/ColorTranslucentTheme" />
 
         <activity
-            android:name=".user.UserHomePageActivity"
+            android:name=".user.HomePageActivity"
             android:theme="@style/ColorTranslucentTheme" />
 
     </application>
