@@ -6,6 +6,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.wen.bangumi.api.BiliBiliApi;
+import com.wen.bangumi.api.bangumi.BangumiApi;
 import com.wen.bangumi.calendar.MainActivity;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.greenDAO.BangumiItemDao;
@@ -124,7 +125,7 @@ public class CalendarRepository implements CalendarInterface {
 //                .client(client)
 //                .build()
 //                .create(BangumiApi.class);
-
+//
 //        return mBangumiApi
 //                .listCalendar()
 //                .map(new Function<List<DailyCalendar>, List<BangumiItem>>() {

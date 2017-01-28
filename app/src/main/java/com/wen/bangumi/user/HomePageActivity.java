@@ -2,7 +2,6 @@ package com.wen.bangumi.user;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -24,17 +23,27 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.user_home_act);
+        setContentView(R.layout.user_home_page_act);
+
+        setupToolbar();
+
+        setupViewPager();
+
+    }
+
+    private void setupToolbar() {
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
+            ab.setTitle("");
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
-        CollapsingToolbarLayout mToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
-        mToolbarLayout.setTitle("Text");
+    }
+
+    private void setupViewPager() {
 
         List<String> strList = new ArrayList<>();
         strList.add(getString(R.string.doing));

@@ -74,4 +74,6 @@ dependencies {
 
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
+    //jousp:html转化和数据提取
+    compile 'org.jsoup:jsoup:1.10.2'
 }
