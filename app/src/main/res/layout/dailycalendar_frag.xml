@@ -29,7 +29,7 @@
                 android:id="@+id/noBangumiText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/no_Bangumi_text"/>
+                android:text="@string/no_bangumi_text"/>
 
         </LinearLayout>
 

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.wen.bangumi.base.BaseFragment;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.util.ScrollChildSwipeRefreshLayout;
 import com.wen.bangumi.R;
@@ -25,15 +26,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by BelieveOP5 on 2017/1/16.
  */
 
-public class DailyCalendarFragment extends Fragment implements DailyCalendarContract.View{
+public class DailyCalendarFragment extends BaseFragment implements DailyCalendarContract.View{
 
     @NonNull
     private static final String CURRENT_POSITION = "DailyCalendarFragment";
 
-    private int mDate;
+    private WeekDay weekday;
 
-    public void setDate(int date) {
-        this.mDate = date;
+    public void setDate(WeekDay weekday) {
+        this.weekday = weekday;
     }
 
     private DailyCalendarContract.Presenter mPresenter;
@@ -48,7 +49,7 @@ public class DailyCalendarFragment extends Fragment implements DailyCalendarCont
      * @param date 该DailyCalendarFragment是属于哪一个日期的
      * @return
      */
-    public static DailyCalendarFragment newInstance(int date) {
+    public static DailyCalendarFragment newInstance(WeekDay date) {
 
         Bundle args = new Bundle();
         DailyCalendarFragment fragment = new DailyCalendarFragment();
@@ -85,18 +86,16 @@ public class DailyCalendarFragment extends Fragment implements DailyCalendarCont
 
         mNoBangumiView =  root.findViewById(R.id.noBangumi);
 
-        // Set up progress indicator
         final ScrollChildSwipeRefreshLayout swipeRefreshLayout =
                 (ScrollChildSwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
 
-        // Set the scrolling view in the custom SwipeRefreshLayout.
         swipeRefreshLayout.setScrollUpChild(mRecyclerView);
 
         swipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        mPresenter.loadDailyCalendar(mDate, true);
+                        mPresenter.loadDailyCalendar(weekday, true);
                     }
                 }
         );
@@ -113,7 +112,7 @@ public class DailyCalendarFragment extends Fragment implements DailyCalendarCont
 
         // FIXME: 2017/1/27 每次界面加载完成之后，再回到该界面的话会出现重新加载的情况
         //获取数据
-        mPresenter.subscribe(mDate);
+        mPresenter.subscribe(weekday);
 
     }
 
@@ -143,26 +142,9 @@ public class DailyCalendarFragment extends Fragment implements DailyCalendarCont
         mNoBangumiView.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * 显示正在读取番剧的旋转小圆圈
-     * @param active
-     */
     @Override
-    public void setLoadingIndicator(final boolean active) {
-        if (getView() == null) {
-            return;
-        }
-
-        final SwipeRefreshLayout srl =
-                (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
-
-        // Make sure setRefreshing() is called after the layout is done with everything else.
-        srl.post(new Runnable() {
-            @Override
-            public void run() {
-                srl.setRefreshing(active);
-            }
-        });
+    public void setLoadingIndicator(boolean active) {
+        refresh(active);
     }
 
     /**

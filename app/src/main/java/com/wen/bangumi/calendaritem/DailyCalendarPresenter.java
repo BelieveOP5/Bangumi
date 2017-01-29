@@ -44,14 +44,14 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
     private boolean mFirstLoad = true;
 
     public DailyCalendarPresenter(@NonNull CalendarRepository mCalendarRepository,
-                                  @NonNull DailyCalendarContract.View mDailyCalendarView,
+                                  @NonNull DailyCalendarContract.View view,
                                   @NonNull BaseSchedulerProvider mSchedulerProvider) {
         this.mCalendarRepository = checkNotNull(mCalendarRepository, "mCalendarRepository cannot be null!");
-        this.mDailyCalendarView = checkNotNull(mDailyCalendarView, "mDailyCalendarView cannot be null!");
+        this.mDailyCalendarView = checkNotNull(view, "mDailyCalendarView cannot be null!");
         this.mSchedulerProvider = checkNotNull(mSchedulerProvider, "mSchedulerProvider cannot be null!");
 
         mCompositeDisposable = new CompositeDisposable();
-        mDailyCalendarView.setPresenter(this);
+        view.setPresenter(this);
     }
 
     /**
@@ -63,8 +63,8 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
     }
 
     @Override
-    public void subscribe(int mDate) {
-        loadDailyCalendar(mDate, false);
+    public void subscribe(WeekDay weekday) {
+        loadDailyCalendar(weekday, false);
     }
 
     @Override
@@ -77,8 +77,8 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
      * @param forceUpdate 是否为强制刷新
      */
     @Override
-    public void loadDailyCalendar(int mDate, boolean forceUpdate) {
-        loadDailyCalendar(mDate, forceUpdate || mFirstLoad, true);
+    public void loadDailyCalendar(WeekDay weekday, boolean forceUpdate) {
+        loadDailyCalendar(weekday, forceUpdate || mFirstLoad, true);
         mFirstLoad = false;
     }
 
@@ -87,7 +87,7 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
      * @param forceUpdate   是否为强制刷新
      * @param showLoadingUI 是否显示加载图标
      */
-    private void loadDailyCalendar(int mDate, boolean forceUpdate, final boolean showLoadingUI) {
+    private void loadDailyCalendar(WeekDay weekday, boolean forceUpdate, final boolean showLoadingUI) {
         if (showLoadingUI) {
             mDailyCalendarView.setLoadingIndicator(true);
         }
@@ -103,7 +103,7 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
         //不管是第一次加载还是需要强制刷新，都应该清除
         mCompositeDisposable.clear();
         Disposable disposable = mCalendarRepository
-                .loadBangumi(mDate)
+                .loadBangumi(weekday)
                 /**
                  * subscribeOn(): 指定 Subscribe()所发生的线程,即Observable.OnSubscribe 被激活时所处的线程,或者叫做事件产生的线程
                  * observeOn(): 指定 Subscriber 所运行在的线程。或者叫做事件消费的线程。

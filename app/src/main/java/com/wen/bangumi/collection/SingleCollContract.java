@@ -1,4 +1,4 @@
-package com.wen.bangumi.calendaritem;
+package com.wen.bangumi.collection;
 
 import com.wen.bangumi.base.BasePresenter;
 import com.wen.bangumi.base.BaseView;
@@ -7,22 +7,21 @@ import com.wen.bangumi.greenDAO.BangumiItem;
 import java.util.List;
 
 /**
- * Created by BelieveOP5 on 2017/1/17.
+ * Created by BelieveOP5 on 2017/1/28.
  */
 
-public interface DailyCalendarContract {
-
+public interface SingleCollContract {
 
     interface View extends BaseView<Presenter> {
 
         /**
-         * 显示某日的番剧
-         * @param mBangumiItemList 当日的番剧列表
+         * 显示番剧
+         * @param mBangumiItemList 番剧列表
          */
-        void showDailyCalendar(List<BangumiItem> mBangumiItemList);
+        void showCollBangumi(List<BangumiItem> mBangumiItemList);
 
         /**
-         * 当日没有番剧可以获取
+         * 没有番剧可以获取
          */
         void showNoBangumiView();
 
@@ -41,19 +40,14 @@ public interface DailyCalendarContract {
 
     interface Presenter extends BasePresenter {
 
-        /**
-         *
-         * @param weekday
-         */
-        void subscribe(WeekDay weekday);
+        void subscribe(BangumiStatus status);
 
         /**
-         *
-         * @param weekday
+         * 加载番剧
+         * @param status
          * @param forceUpdate
          */
-        void loadDailyCalendar(WeekDay weekday, boolean forceUpdate);
+        void loadBangumi(BangumiStatus status, boolean forceUpdate);
 
     }
-
 }

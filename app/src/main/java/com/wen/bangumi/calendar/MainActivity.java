@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.wen.bangumi.Bangumi;
+import com.wen.bangumi.calendaritem.WeekDay;
 import com.wen.bangumi.event.Event;
 import com.wen.bangumi.user.UserPreferences;
 import com.wen.bangumi.util.Injection;
@@ -38,10 +39,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -193,26 +194,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager() {
 
-        List<String> strList = new ArrayList<>();
-        strList.add(getString(R.string.monday));
-        strList.add(getString(R.string.tuesday));
-        strList.add(getString(R.string.wednesday));
-        strList.add(getString(R.string.thursday));
-        strList.add(getString(R.string.friday));
-        strList.add(getString(R.string.saturday));
-        strList.add(getString(R.string.sunday));
+        Map<WeekDay, String> map = new LinkedHashMap<>();
+        map.put(WeekDay.MONDAY, getString(R.string.monday));
+        map.put(WeekDay.TUESDAY, getString(R.string.tuesday));
+        map.put(WeekDay.WEDNESDAY, getString(R.string.wednesday));
+        map.put(WeekDay.THURSDAY, getString(R.string.thursday));
+        map.put(WeekDay.FRIDAY, getString(R.string.friday));
+        map.put(WeekDay.SATURDAY, getString(R.string.saturday));
+        map.put(WeekDay.SUNDAY, getString(R.string.sunday));
 
         final ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        for (int i = 0; i < strList.size(); ++i) {
-
-            //为每一个Fragment连接一个Presenter
-            DailyCalendarFragment mDailyCalendarFragment = DailyCalendarFragment.newInstance(i + 1);
-            mViewPagerAdapter.addItem(mDailyCalendarFragment, strList.get(i));
+        for (Map.Entry<WeekDay, String> i : map.entrySet()) {
+            DailyCalendarFragment fragment = DailyCalendarFragment.newInstance(i.getKey());
+            mViewPagerAdapter.addItem(fragment, i.getValue());
             new DailyCalendarPresenter(
                     Injection.provideCalendarRepository(),
-                    mDailyCalendarFragment,
+                    fragment,
                     Injection.provideSchedulerProvider());
-
         }
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);

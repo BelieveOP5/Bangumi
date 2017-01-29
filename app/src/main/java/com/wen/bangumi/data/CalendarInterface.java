@@ -2,6 +2,7 @@ package com.wen.bangumi.data;
 
 import android.support.annotation.NonNull;
 
+import com.wen.bangumi.calendaritem.WeekDay;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.responseentity.DailyCalendar;
 import com.wen.bangumi.responseentity.TimeLine_BiliBili;
@@ -21,7 +22,7 @@ public interface CalendarInterface {
      * 获取每日的番剧放送列表
      * @return
      */
-    Observable<List<BangumiItem>> loadBangumi(@NonNull int mDate);
+    Observable<List<BangumiItem>> loadBangumi(@NonNull WeekDay mDate);
 
     /**
      * Bangmi
@@ -31,7 +32,7 @@ public interface CalendarInterface {
      * @return 该模块所处的日期的番剧信息
      */
     List<BangumiItem> saveBangumi(@NonNull List<DailyCalendar> mList,
-                                  @NonNull int mDate);
+                                  @NonNull WeekDay mDate);
 
     /**
      * BiliBili
@@ -41,7 +42,7 @@ public interface CalendarInterface {
      * @return 该模块所处的日期的番剧信息
      */
     List<BangumiItem> saveBiliBiliBangumi(@NonNull TimeLine_BiliBili mList,
-                                          @NonNull int mDate);
+                                          @NonNull WeekDay mDate);
 
     /**
      * 当需要强制刷新时调用，表示需要清除缓存，并重新加载

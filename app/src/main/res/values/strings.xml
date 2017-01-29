@@ -31,6 +31,12 @@
     <string name="saturday">六</string>
     <string name="sunday">日</string>
 
-    <string name="no_Bangumi_text">今天没有新番更新哟！(＾Ｕ＾)ノ~ＹＯ</string>
+    <string name="no_bangumi_text">今天没有新番更新哟！(＾Ｕ＾)ノ~ＹＯ</string>
+
+    <string name="no_wish_bangumi_text">你还没有想追的番剧哟！_(:3 」∠)_</string>
+    <string name="no_do_bangumi_text">你还没有正在追的番剧哟！Σ(っ °Д °;)っ</string>
+    <string name="no_coll_bangumi_text">你还没看过任何番剧哟！__Orz__</string>
+    <string name="no_on_hold_bangumi_text">你暂时还没有搁置番剧哟！(￣_,￣ )</string>
+    <string name="no_dropped_bangumi_text">你还没有抛弃番剧哟！(＞﹏＜)</string>
 
 </resources>

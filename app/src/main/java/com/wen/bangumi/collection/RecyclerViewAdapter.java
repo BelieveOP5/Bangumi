@@ -1,4 +1,4 @@
-package com.wen.bangumi.calendaritem;
+package com.wen.bangumi.collection;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,20 +10,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
-import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.R;
+import com.wen.bangumi.greenDAO.BangumiItem;
 
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Created by BelieveOP5 on 2017/1/16.
+ * Created by BelieveOP5 on 2017/1/28.
  */
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     /**
      * 一日的番剧放送列表
@@ -39,7 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(List<BangumiItem> mBangumiItemList,
                                @NonNull Context mContext) {
         setList(mBangumiItemList);
-        this.mContext = checkNotNull(mContext, "mContext cannot be null!");
+        this.mContext = checkNotNull(mContext, "Context cannot be null!");
     }
 
     public void replaceData(List<BangumiItem> mBangumiItemList) {
@@ -54,22 +54,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.mBangumiItemList = checkNotNull(mBangumiItemList);
     }
 
+
     /**
-     * 当RecyclerView需要创建一个指定类型的新的{@link ViewHolder}来具体的表示一个Item的时候会被调用
+     * 当RecyclerView需要创建一个指定类型的新的{@link com.wen.bangumi.collection.RecyclerViewAdapter.ViewHolder}来具体的表示一个Item的时候会被调用
      * @param parent
      * @param viewType
      * @return
      */
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //获取单个番剧的ViewHolder
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.dailycalendar_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_coll_item, parent, false);
         return new ViewHolder(view);
     }
 
+
     /**
      * 当RecyclerView需要将某个position上面的数据显示出来的时候，调用这个方法
-     * 这个方法应该实现：更新在某个position中{@link ViewHolder#itemView}的内容
+     * 这个方法应该实现：更新在某个position中{@link com.wen.bangumi.collection.RecyclerViewAdapter.ViewHolder#itemView}的内容
      * @param holder
      * @param position
      */
@@ -89,14 +90,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Picasso.with(mContext)
                 .load(item.getLarge_image())
                 .config(Bitmap.Config.RGB_565)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
 //                .transform(new Transfrom())
                 .into(holder.mImageView);
+
     }
 
-    /**
-     * 获取Adapter中所有的数据的数量
-     * @return
-     */
     @Override
     public int getItemCount() {
         return mBangumiItemList.size();
@@ -117,34 +116,4 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-    /**
-     * 进行图片变换，并回收之前的大图，防止OOM（内存溢出）
-     */
-    public static class Transfrom implements Transformation {
-
-        @Override
-        public Bitmap transform(Bitmap source) {
-
-            //原图不可为空
-            checkNotNull(source, "source cannot be null!");
-
-            //进行一半的缩小
-            Bitmap result = source.createScaledBitmap(
-                    source,
-                    source.getWidth(),
-                    source.getHeight(),
-                    false);
-
-            //回收原图
-            source.recycle();
-
-            return result;
-        }
-
-        @Override
-        public String key() {
-            return "Half_Transfrom";
-        }
-
-    }
 }

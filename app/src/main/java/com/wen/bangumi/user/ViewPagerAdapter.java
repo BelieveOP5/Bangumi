@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.wen.bangumi.collection.SingleCollFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +15,14 @@ import java.util.List;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    List<Fragment> mFragmentList = new ArrayList<>();
+    List<SingleCollFragment> mFragmentList = new ArrayList<>();
     List<String> mPageTitles = new ArrayList<>();
 
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public void addItem(Fragment fragment, String pageTitle) {
+    public void addItem(SingleCollFragment fragment, String pageTitle) {
         mFragmentList.add(fragment);
         mPageTitles.add(pageTitle);
     }
