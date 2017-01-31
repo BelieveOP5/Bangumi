@@ -19,8 +19,10 @@
     <string name="on_hold">搁置</string>
     <string name="dropped">抛弃</string>
 
-    <string name="default_user_name">Default</string>
-    <string name="default_user_info">Defaule Information</string>
+    <string name="default_">Default</string>
+    <string name="default_information">Defaule Information</string>
+
+    <string name="bangumi_item_image_view_content_description">Bangumi Image</string>
 
     <!-- 每日放送 -->
     <string name="monday">一</string>

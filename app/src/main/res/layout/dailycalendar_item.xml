@@ -4,15 +4,17 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="6dp">
+    android:layout_margin="6dp"
+    android:clickable="true">
     
     <ImageView
         android:id="@+id/item_image"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/calendar_img_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:scaleType="fitXY"
-        android:adjustViewBounds="true"/>
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/bangumi_item_image_view_content_description"/>
     
     <TextView
         android:id="@+id/item_title"

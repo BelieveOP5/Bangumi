@@ -25,6 +25,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
+    @NonNull
+    private static final String CURRENT_POSITION = "RecyclerViewAdapter";
+
     /**
      * 一日的番剧放送列表
      */
@@ -39,7 +42,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public RecyclerViewAdapter(List<BangumiItem> mBangumiItemList,
                                @NonNull Context mContext) {
         setList(mBangumiItemList);
-        this.mContext = checkNotNull(mContext, "mContext cannot be null!");
+        this.mContext = checkNotNull(mContext, "Context cannot be null!");
     }
 
     public void replaceData(List<BangumiItem> mBangumiItemList) {
@@ -74,7 +77,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
      * @param position
      */
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final BangumiItem item = mBangumiItemList.get(position);
 
@@ -91,6 +94,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .config(Bitmap.Config.RGB_565)
 //                .transform(new Transfrom())
                 .into(holder.mImageView);
+
+        /**
+         * 设置监听事件
+         */
+        holder.itemView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mListener.onItemClick(
+                                holder.mImageView,
+                                item
+                        );
+                    }
+                }
+        );
+
     }
 
     /**
@@ -102,10 +121,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mBangumiItemList.size();
     }
 
+    private OnItemClickListener mListener;
+
+    /**
+     * 监听接口
+     */
+    public interface OnItemClickListener {
+        void onItemClick(View view, BangumiItem item);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView mImageView;
-        TextView mTextView;
+        public ImageView mImageView;
+        public TextView mTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);

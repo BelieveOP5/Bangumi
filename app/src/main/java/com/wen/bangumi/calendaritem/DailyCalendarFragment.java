@@ -1,17 +1,21 @@
 package com.wen.bangumi.calendaritem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.wen.bangumi.BangumiDetail.BangumiDetailActivity;
 import com.wen.bangumi.base.BaseFragment;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.util.ScrollChildSwipeRefreshLayout;
@@ -83,6 +87,26 @@ public class DailyCalendarFragment extends BaseFragment implements DailyCalendar
         mRecyclerView = (RecyclerView) root.findViewById(R.id.bangumiList);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
+
+        mRecyclerViewAdapter.setOnItemClickListener(
+                new RecyclerViewAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, BangumiItem item) {
+                        Intent intent = new Intent(getActivity(), BangumiDetailActivity.class);
+                        intent.putExtra("Bangumi_id", item.getBangumi_id());
+                        intent.putExtra("Name_cn", item.getName_cn());
+                        intent.putExtra("Large_image", item.getLarge_image());
+                        startActivity(
+                                intent,
+                                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                        getActivity(),
+                                        view,
+                                        "image_view"
+                                ).toBundle()
+                        );
+                    }
+                }
+        );
 
         mNoBangumiView =  root.findViewById(R.id.noBangumi);
 

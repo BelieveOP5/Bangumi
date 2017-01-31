@@ -77,12 +77,6 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase db = helper.getWritableDatabase();
         mDaoSession = new DaoMaster(db).newSession();
 
-        //沉浸式状态栏
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
-
         setupToolbar();
 
         mTabLayout = (TabLayout) findViewById(R.id.tablayout);
@@ -115,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView username = (TextView) navHeaderView.findViewById(R.id.username_text_view);
         TextView userInfo = (TextView) navHeaderView.findViewById(R.id.user_info_text_view);
-        CircleImageView circleImageView = (CircleImageView) navHeaderView.findViewById(R.id.circle_imageview);
+        CircleImageView circleImageView = (CircleImageView) navHeaderView.findViewById(R.id.circle_image_view);
 
         username.setText(UserPreferences.getNickName(Bangumi.getInstance()));
         userInfo.setText(UserPreferences.getSign(Bangumi.getInstance()));
@@ -143,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
         navHeaderView = mNavigationView.inflateHeaderView(R.layout.nav_header);
 
-        CircleImageView circleImageView = (CircleImageView) navHeaderView.findViewById(R.id.circle_imageview);
+        CircleImageView circleImageView = (CircleImageView) navHeaderView.findViewById(R.id.circle_image_view);
         circleImageView.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

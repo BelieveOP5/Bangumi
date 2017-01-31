@@ -112,44 +112,20 @@ public class CalendarRepository implements CalendarInterface {
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .build();
 
-//        BangumiApi mBangumiApi = new Retrofit.Builder()
-//                .baseUrl(BANGUMI_BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                .client(client)
-//                .build()
-//                .create(BangumiApi.class);
-//
-//        return mBangumiApi
-//                .listCalendar()
-//                .map(new Function<List<DailyCalendar>, List<BangumiItem>>() {
-//                    @Override
-//                    public List<BangumiItem> apply(List<DailyCalendar> calendarList) throws Exception {
-//                        return saveBangumi(calendarList, mDate);
-//                    }
-//                })
-//                //完成了之后
-//                .doOnComplete(new Action() {
-//                    @Override
-//                    public void run() throws Exception {
-//                        mCacheIsDirty = false;
-//                    }
-//                });
-
-        BiliBiliApi mBiliBiliApi = new Retrofit.Builder()
-                .baseUrl(BiliBili_BASE_URL)
+        BangumiApi mBangumiApi = new Retrofit.Builder()
+                .baseUrl(BANGUMI_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .build()
-                .create(BiliBiliApi.class);
+                .create(BangumiApi.class);
 
-        return mBiliBiliApi
+        return mBangumiApi
                 .listCalendar()
-                .map(new Function<TimeLine_BiliBili, List<BangumiItem>>() {
+                .map(new Function<List<DailyCalendar>, List<BangumiItem>>() {
                     @Override
-                    public List<BangumiItem> apply(TimeLine_BiliBili timeLine_biliBili) throws Exception {
-                        return saveBiliBiliBangumi(timeLine_biliBili, weekday);
+                    public List<BangumiItem> apply(List<DailyCalendar> calendarList) throws Exception {
+                        return saveBangumi(calendarList, weekday);
                     }
                 })
                 //完成了之后
@@ -159,6 +135,30 @@ public class CalendarRepository implements CalendarInterface {
                         mCacheIsDirty = false;
                     }
                 });
+
+//        BiliBiliApi mBiliBiliApi = new Retrofit.Builder()
+//                .baseUrl(BiliBili_BASE_URL)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                .client(client)
+//                .build()
+//                .create(BiliBiliApi.class);
+//
+//        return mBiliBiliApi
+//                .listCalendar()
+//                .map(new Function<TimeLine_BiliBili, List<BangumiItem>>() {
+//                    @Override
+//                    public List<BangumiItem> apply(TimeLine_BiliBili timeLine_biliBili) throws Exception {
+//                        return saveBiliBiliBangumi(timeLine_biliBili, weekday);
+//                    }
+//                })
+//                //完成了之后
+//                .doOnComplete(new Action() {
+//                    @Override
+//                    public void run() throws Exception {
+//                        mCacheIsDirty = false;
+//                    }
+//                });
 
     }
 
@@ -247,7 +247,7 @@ public class CalendarRepository implements CalendarInterface {
 
             entity.setBangumi_id(item.getSeason_id());
             entity.setAir_weekday(getWeekOfDate(item.getPub_date()));
-            entity.setName_cn(item.getTitle()+"("+item.getOntime()+")");
+            entity.setName_cn(item.getTitle());
             entity.setLarge_image(item.getCover());
 
             dbList.add(entity);

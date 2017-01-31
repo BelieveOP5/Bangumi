@@ -13,20 +13,24 @@
 
         <activity
             android:name=".calendar.MainActivity"
-            android:theme="@style/ColorTranslucentTheme">
+            android:theme="@style/BaseTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"></action>
-                <category android:name="android.intent.category.LAUNCHER"></category>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".login.LoginActivity"
-            android:theme="@style/ColorTranslucentTheme" />
+            android:theme="@style/BaseTheme" />
 
         <activity
             android:name=".user.HomePageActivity"
-            android:theme="@style/ColorTranslucentTheme" />
+            android:theme="@style/BaseTheme" />
+
+        <activity
+            android:name=".BangumiDetail.BangumiDetailActivity"
+            android:theme="@style/BaseTheme" />
 
     </application>
 
