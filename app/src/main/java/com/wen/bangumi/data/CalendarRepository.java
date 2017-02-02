@@ -13,6 +13,7 @@ import com.wen.bangumi.calendaritem.WeekDay;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.greenDAO.BangumiItemDao;
 import com.wen.bangumi.greenDAO.DaoSession;
+import com.wen.bangumi.network.RetrofitHelper;
 import com.wen.bangumi.responseentity.DailyCalendar;
 import com.wen.bangumi.responseentity.TimeLine_BiliBili;
 
@@ -45,15 +46,6 @@ public class CalendarRepository implements CalendarInterface {
 
     @Nullable
     private static CalendarRepository INSTANCE;
-
-    /**
-     * BangumiApi的基本网址
-     */
-    public static final String BANGUMI_BASE_URL = "http://api.bgm.tv/";
-    /**
-     * BiliBiliApi的基本网址
-     */
-    public static final String BiliBili_BASE_URL = "https://bangumi.bilibili.com/";
 
     /**
      * 默认连接超时时间为10s
@@ -105,51 +97,12 @@ public class CalendarRepository implements CalendarInterface {
             return mCache;
         }
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(
-                        new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-                )
-                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .build();
-
-        BangumiApi mBangumiApi = new Retrofit.Builder()
-                .baseUrl(BANGUMI_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(client)
-                .build()
-                .create(BangumiApi.class);
-
-        return mBangumiApi
-                .listCalendar()
-                .map(new Function<List<DailyCalendar>, List<BangumiItem>>() {
-                    @Override
-                    public List<BangumiItem> apply(List<DailyCalendar> calendarList) throws Exception {
-                        return saveBangumi(calendarList, weekday);
-                    }
-                })
-                //完成了之后
-                .doOnComplete(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        mCacheIsDirty = false;
-                    }
-                });
-
-//        BiliBiliApi mBiliBiliApi = new Retrofit.Builder()
-//                .baseUrl(BiliBili_BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                .client(client)
-//                .build()
-//                .create(BiliBiliApi.class);
-//
-//        return mBiliBiliApi
+//        return RetrofitHelper.getBangumiApi()
 //                .listCalendar()
-//                .map(new Function<TimeLine_BiliBili, List<BangumiItem>>() {
+//                .map(new Function<List<DailyCalendar>, List<BangumiItem>>() {
 //                    @Override
-//                    public List<BangumiItem> apply(TimeLine_BiliBili timeLine_biliBili) throws Exception {
-//                        return saveBiliBiliBangumi(timeLine_biliBili, weekday);
+//                    public List<BangumiItem> apply(List<DailyCalendar> calendarList) throws Exception {
+//                        return saveBangumi(calendarList, weekday);
 //                    }
 //                })
 //                //完成了之后
@@ -159,6 +112,22 @@ public class CalendarRepository implements CalendarInterface {
 //                        mCacheIsDirty = false;
 //                    }
 //                });
+
+        return RetrofitHelper.getBiliBiliApi()
+                .listCalendar()
+                .map(new Function<TimeLine_BiliBili, List<BangumiItem>>() {
+                    @Override
+                    public List<BangumiItem> apply(TimeLine_BiliBili timeLine_biliBili) throws Exception {
+                        return saveBiliBiliBangumi(timeLine_biliBili, weekday);
+                    }
+                })
+                //完成了之后
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        mCacheIsDirty = false;
+                    }
+                });
 
     }
 

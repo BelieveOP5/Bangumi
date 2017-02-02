@@ -37,6 +37,7 @@ public interface BangumiApi {
     Observable<Token> login(@Field("username") String username,
                             @Field("password") String password);
 
+
     /**
      * 上面的BaseUrl是http://api.bgm.tv/
      * ---------------------------------------------------------------------------------------------
@@ -57,5 +58,13 @@ public interface BangumiApi {
                                       @Path("userName") String userName,
                                       @Path("type") String type,
                                       @Query("page") int page);
+
+    /**
+     * 获取该番剧的章节信息，不包括用户的观看状态
+     * @param id 番剧id
+     * @return
+     */
+    @GET("subject/{subject}/ep")
+    Observable<String> loadEpisodes(@Path("subject") String id);
 
 }

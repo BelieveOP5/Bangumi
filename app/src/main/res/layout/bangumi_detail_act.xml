@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -24,7 +24,8 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 android:contentDescription="@string/bangumi_item_image_view_content_description"
-                app:layout_collapseMode="parallax"/>
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.8"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -36,4 +37,51 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:textSize="14sp"
+                    android:text="@string/select_episode"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerHorizontal="true"
+                    android:drawableRight="@drawable/arrow_right"
+                    android:drawableEnd="@drawable/arrow_right"
+                    android:drawablePadding="5dp"
+                    android:textSize="12sp"/>
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
 </android.support.design.widget.CoordinatorLayout>
+

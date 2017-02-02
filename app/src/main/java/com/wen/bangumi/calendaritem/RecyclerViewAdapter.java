@@ -26,7 +26,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
     @NonNull
-    private static final String CURRENT_POSITION = "RecyclerViewAdapter";
+    private static final String CURRENT_POSITION = "BangumiSelectionRecyclerViewAdapter";
 
     /**
      * 一日的番剧放送列表

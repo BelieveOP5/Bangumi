@@ -9,6 +9,7 @@ import com.wen.bangumi.Bangumi;
 import com.wen.bangumi.api.bangumi.BangumiApi;
 import com.wen.bangumi.collection.BangumiStatus;
 import com.wen.bangumi.greenDAO.BangumiItem;
+import com.wen.bangumi.network.RetrofitHelper;
 import com.wen.bangumi.user.UserPreferences;
 import com.wen.bangumi.util.JsoupUtils;
 
@@ -30,11 +31,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class CollectionRepository implements CollectionInterface{
 
-    /**
-     * BangumiApi的基本网址
-     */
-    public static final String BANGUMI_BASE_URL = "http://bgm.tv/";
-
     @Nullable
     private static CollectionRepository INSTANCE;
 
@@ -55,11 +51,6 @@ public class CollectionRepository implements CollectionInterface{
     @VisibleForTesting
     boolean mCacheIsDirty = false;
 
-    /**
-     * 默认连接超时时间为10s
-     */
-    public static final int DEFAULT_TIMEOUT = 10;
-
     @Override
     public Observable<List<BangumiItem>> loadBangumi(@NonNull final BangumiStatus status) {
         //如果缓存不Dirty（或者不在强制刷新的情况下），则从数据库中读取数据
@@ -67,22 +58,7 @@ public class CollectionRepository implements CollectionInterface{
 
         }
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(
-                        new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-                )
-                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .build();
-
-        BangumiApi mBangumiApi = new Retrofit.Builder()
-                .baseUrl(BANGUMI_BASE_URL)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(client)
-                .build()
-                .create(BangumiApi.class);
-
-        return mBangumiApi
+        return RetrofitHelper.getBangumiWebApi()
                 .listCollection(
                         "anime",
                         UserPreferences.getUserName(Bangumi.getInstance()),
