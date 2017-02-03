@@ -1,4 +1,4 @@
-package com.wen.bangumi.calendar;
+package com.wen.bangumi.module.calendar;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,15 +23,15 @@ import com.squareup.picasso.Picasso;
 import com.wen.bangumi.Bangumi;
 import com.wen.bangumi.module.calendaritem.WeekDay;
 import com.wen.bangumi.event.Event;
-import com.wen.bangumi.user.UserPreferences;
+import com.wen.bangumi.module.user.UserPreferences;
 import com.wen.bangumi.util.Injection;
 import com.wen.bangumi.module.calendaritem.DailyCalendarFragment;
 import com.wen.bangumi.module.calendaritem.DailyCalendarPresenter;
 import com.wen.bangumi.greenDAO.DaoMaster;
 import com.wen.bangumi.greenDAO.DaoSession;
 import com.wen.bangumi.R;
-import com.wen.bangumi.login.LoginActivity;
-import com.wen.bangumi.user.HomePageActivity;
+import com.wen.bangumi.module.login.LoginActivity;
+import com.wen.bangumi.module.user.HomePageActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

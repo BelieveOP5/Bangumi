@@ -1,4 +1,4 @@
-package com.wen.bangumi.user;
+package com.wen.bangumi.module.user;
 
 import android.content.Context;
 import android.text.TextUtils;

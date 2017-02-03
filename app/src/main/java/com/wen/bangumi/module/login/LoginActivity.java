@@ -1,6 +1,5 @@
-package com.wen.bangumi.login;
+package com.wen.bangumi.module.login;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -11,13 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import com.wen.bangumi.event.Event;
 import com.wen.bangumi.util.Injection;
 import com.wen.bangumi.R;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by BelieveOP5 on 2017/1/24.

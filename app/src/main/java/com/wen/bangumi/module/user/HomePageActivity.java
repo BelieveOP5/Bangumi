@@ -1,4 +1,4 @@
-package com.wen.bangumi.user;
+package com.wen.bangumi.module.user;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

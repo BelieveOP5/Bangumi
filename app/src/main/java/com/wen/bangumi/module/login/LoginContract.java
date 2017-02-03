@@ -1,4 +1,4 @@
-package com.wen.bangumi.login;
+package com.wen.bangumi.module.login;
 
 import com.wen.bangumi.base.BasePresenter;
 import com.wen.bangumi.base.BaseView;

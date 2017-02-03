@@ -1,35 +1,35 @@
-package com.wen.bangumi.calendar;
+package com.wen.bangumi.module.user;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.wen.bangumi.module.calendaritem.DailyCalendarFragment;
+import com.wen.bangumi.module.collection.SingleCollFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by BelieveOP5 on 2017/1/16.
+ * Created by BelieveOP5 on 2017/1/26.
  */
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    List<DailyCalendarFragment> mDailyCalendarFragmentList = new ArrayList<>();
+    List<SingleCollFragment> mFragmentList = new ArrayList<>();
     List<String> mPageTitles = new ArrayList<>();
 
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public void addItem(DailyCalendarFragment dailyCalendarFragment, String pageTitle) {
-        mDailyCalendarFragmentList.add(dailyCalendarFragment);
+    public void addItem(SingleCollFragment fragment, String pageTitle) {
+        mFragmentList.add(fragment);
         mPageTitles.add(pageTitle);
     }
 
     @Override
     public Fragment getItem(int position) {
-        return mDailyCalendarFragmentList.get(position);
+        return mFragmentList.get(position);
     }
 
     /**
@@ -44,7 +44,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return mDailyCalendarFragmentList.size();
+        return mFragmentList.size();
     }
+
 
 }

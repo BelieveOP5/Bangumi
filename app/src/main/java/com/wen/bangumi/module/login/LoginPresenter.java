@@ -1,4 +1,4 @@
-package com.wen.bangumi.login;
+package com.wen.bangumi.module.login;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -7,7 +7,7 @@ import com.wen.bangumi.Bangumi;
 import com.wen.bangumi.data.LoginRepository;
 import com.wen.bangumi.event.Event;
 import com.wen.bangumi.entity.Token;
-import com.wen.bangumi.user.UserPreferences;
+import com.wen.bangumi.module.user.UserPreferences;
 import com.wen.bangumi.util.scheduler.BaseSchedulerProvider;
 
 import org.greenrobot.eventbus.EventBus;

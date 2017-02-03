@@ -8,7 +8,7 @@ import com.wen.bangumi.Bangumi;
 import com.wen.bangumi.module.collection.BangumiStatus;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.network.RetrofitHelper;
-import com.wen.bangumi.user.UserPreferences;
+import com.wen.bangumi.module.user.UserPreferences;
 import com.wen.bangumi.util.JsoupUtils;
 
 import java.util.List;
