@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.wen.bangumi.Bangumi;
-import com.wen.bangumi.collection.BangumiStatus;
+import com.wen.bangumi.module.collection.BangumiStatus;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.network.RetrofitHelper;
 import com.wen.bangumi.user.UserPreferences;

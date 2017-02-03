@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.wen.bangumi.collection.SingleCollFragment;
+import com.wen.bangumi.module.collection.SingleCollFragment;
 
 import java.util.ArrayList;
 import java.util.List;

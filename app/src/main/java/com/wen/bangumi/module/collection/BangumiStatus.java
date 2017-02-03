@@ -1,4 +1,4 @@
-package com.wen.bangumi.collection;
+package com.wen.bangumi.module.collection;
 
 /**
  * 储存番剧状态

@@ -1,4 +1,4 @@
-package com.wen.bangumi.collection;
+package com.wen.bangumi.module.collection;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wen.bangumi.BangumiDetail.BangumiDetailActivity;
 import com.wen.bangumi.R;
 import com.wen.bangumi.base.BaseFragment;
 import com.wen.bangumi.greenDAO.BangumiItem;
+import com.wen.bangumi.module.bangumidetail.BangumiDetailActivity;
 import com.wen.bangumi.util.ScrollChildSwipeRefreshLayout;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class SingleCollFragment extends BaseFragment implements SingleCollContra
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
 
         mRecyclerViewAdapter.setOnItemClickListener(
-                new com.wen.bangumi.collection.RecyclerViewAdapter.OnItemClickListener() {
+                new com.wen.bangumi.module.collection.RecyclerViewAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, BangumiItem item) {
                         Intent intent = new Intent(getActivity(), BangumiDetailActivity.class);

@@ -10,9 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.wen.bangumi.R;
-import com.wen.bangumi.collection.BangumiStatus;
-import com.wen.bangumi.collection.SingleCollFragment;
-import com.wen.bangumi.collection.SingleCollPresent;
+import com.wen.bangumi.module.collection.BangumiStatus;
+import com.wen.bangumi.module.collection.SingleCollFragment;
+import com.wen.bangumi.module.collection.SingleCollPresent;
 import com.wen.bangumi.util.Injection;
 
 import java.util.LinkedHashMap;

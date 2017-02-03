@@ -2,7 +2,7 @@ package com.wen.bangumi.data;
 
 import android.support.annotation.NonNull;
 
-import com.wen.bangumi.collection.BangumiStatus;
+import com.wen.bangumi.module.collection.BangumiStatus;
 import com.wen.bangumi.greenDAO.BangumiItem;
 
 import java.util.List;

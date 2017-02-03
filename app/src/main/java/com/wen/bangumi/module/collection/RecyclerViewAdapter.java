@@ -1,4 +1,4 @@
-package com.wen.bangumi.collection;
+package com.wen.bangumi.module.collection;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -69,7 +69,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
     /**
-     * 当RecyclerView需要创建一个指定类型的新的{@link com.wen.bangumi.collection.RecyclerViewAdapter.ViewHolder}来具体的表示一个Item的时候会被调用
+     * 当RecyclerView需要创建一个指定类型的新的{@link com.wen.bangumi.module.collection.RecyclerViewAdapter.ViewHolder}来具体的表示一个Item的时候会被调用
      * @param parent
      * @param viewType
      * @return
@@ -83,7 +83,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     /**
      * 当RecyclerView需要将某个position上面的数据显示出来的时候，调用这个方法
-     * 这个方法应该实现：更新在某个position中{@link com.wen.bangumi.collection.RecyclerViewAdapter.ViewHolder#itemView}的内容
+     * 这个方法应该实现：更新在某个position中{@link com.wen.bangumi.module.collection.RecyclerViewAdapter.ViewHolder#itemView}的内容
      * @param holder
      * @param position
      */
