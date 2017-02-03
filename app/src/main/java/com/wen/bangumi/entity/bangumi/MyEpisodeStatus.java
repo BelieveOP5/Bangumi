@@ -1,4 +1,4 @@
-package com.wen.bangumi.entity;
+package com.wen.bangumi.entity.bangumi;
 
 import java.util.List;
 

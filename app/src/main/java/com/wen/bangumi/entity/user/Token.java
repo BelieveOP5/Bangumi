@@ -1,4 +1,4 @@
-package com.wen.bangumi.entity;
+package com.wen.bangumi.entity.user;
 
 /**
  * Created by BelieveOP5 on 2017/1/24.

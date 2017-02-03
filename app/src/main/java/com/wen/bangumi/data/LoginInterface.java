@@ -2,7 +2,7 @@ package com.wen.bangumi.data;
 
 import android.support.annotation.NonNull;
 
-import com.wen.bangumi.entity.Token;
+import com.wen.bangumi.entity.user.Token;
 
 import io.reactivex.Observable;
 

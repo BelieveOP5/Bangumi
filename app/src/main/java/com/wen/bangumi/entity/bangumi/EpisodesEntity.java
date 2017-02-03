@@ -1,4 +1,4 @@
-package com.wen.bangumi.entity.calendar;
+package com.wen.bangumi.entity.bangumi;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.wen.bangumi.base.Constants;
-import com.wen.bangumi.entity.Token;
+import com.wen.bangumi.entity.user.Token;
 import com.wen.bangumi.util.SharedPreferencesUtils;
 
 /**
