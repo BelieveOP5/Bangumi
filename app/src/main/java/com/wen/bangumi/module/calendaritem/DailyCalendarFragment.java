@@ -25,10 +25,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by BelieveOP5 on 2017/1/16.
  */
 
-public class DailyCalendarLazyFragment extends BaseLazyFragment implements DailyCalendarContract.View{
+public class DailyCalendarFragment extends BaseLazyFragment implements DailyCalendarContract.View{
 
     @NonNull
-    private static final String TAG = "DailyCalendarLazyFragment";
+    private static final String TAG = "DailyCalendarFragment";
 
     private WeekDay weekday;
 
@@ -48,10 +48,10 @@ public class DailyCalendarLazyFragment extends BaseLazyFragment implements Daily
      * @param date 该DailyCalendarFragment是属于哪一个日期的
      * @return
      */
-    public static DailyCalendarLazyFragment newInstance(WeekDay date) {
+    public static DailyCalendarFragment newInstance(WeekDay date) {
 
         Bundle args = new Bundle();
-        DailyCalendarLazyFragment fragment = new DailyCalendarLazyFragment();
+        DailyCalendarFragment fragment = new DailyCalendarFragment();
         fragment.setDate(date);
         fragment.setArguments(args);
         return fragment;

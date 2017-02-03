@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.wen.bangumi.module.calendaritem.DailyCalendarLazyFragment;
+import com.wen.bangumi.module.calendaritem.DailyCalendarFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +15,14 @@ import java.util.List;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
 
-    List<DailyCalendarLazyFragment> mDailyCalendarFragmentList = new ArrayList<>();
+    List<DailyCalendarFragment> mDailyCalendarFragmentList = new ArrayList<>();
     List<String> mPageTitles = new ArrayList<>();
 
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public void addItem(DailyCalendarLazyFragment dailyCalendarFragment, String pageTitle) {
+    public void addItem(DailyCalendarFragment dailyCalendarFragment, String pageTitle) {
         mDailyCalendarFragmentList.add(dailyCalendarFragment);
         mPageTitles.add(pageTitle);
     }

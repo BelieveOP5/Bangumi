@@ -12,6 +12,12 @@ import com.wen.bangumi.R;
 
 public class BaseLazyFragment extends Fragment {
 
+    // 标志位 标志已经初始化完成。
+    protected boolean isPrepared;
+
+    //标志位 fragment是否可见
+    protected boolean isVisible;
+
     /**
      * 显示正在读取的旋转小圆圈
      * @param active
@@ -29,5 +35,27 @@ public class BaseLazyFragment extends Fragment {
         });
 
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getUserVisibleHint()) {
+            isVisible = true;
+            OnVisible();
+        } else {
+            isVisible = false;
+            OnInVisible();
+        }
+    }
+
+    protected void OnVisible() {
+
+        lazyLoad();
+    }
+
+    protected void OnInVisible() {}
+
+    protected void lazyLoad() {}
+
 
 }
