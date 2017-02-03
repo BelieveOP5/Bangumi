@@ -1,7 +1,9 @@
 package com.wen.bangumi.collection;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wen.bangumi.BangumiDetail.BangumiDetailActivity;
 import com.wen.bangumi.R;
 import com.wen.bangumi.base.BaseFragment;
 import com.wen.bangumi.greenDAO.BangumiItem;
@@ -68,6 +71,26 @@ public class SingleCollFragment extends BaseFragment implements SingleCollContra
         mRecyclerView = (RecyclerView) root.findViewById(R.id.bangumi_list);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
+
+        mRecyclerViewAdapter.setOnItemClickListener(
+                new com.wen.bangumi.collection.RecyclerViewAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, BangumiItem item) {
+                        Intent intent = new Intent(getActivity(), BangumiDetailActivity.class);
+                        intent.putExtra("Bangumi_id", item.getBangumi_id());
+                        intent.putExtra("Name_cn", item.getName_cn());
+                        intent.putExtra("Large_image", item.getLarge_image());
+                        startActivity(
+                                intent,
+                                ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                        getActivity(),
+                                        view,
+                                        "image_view"
+                                ).toBundle()
+                        );
+                    }
+                }
+        );
 
         mNoBangumiView = root.findViewById(R.id.no_bangumi_layout);
         TextView textView = (TextView) root.findViewById(R.id.no_bangumi_text);

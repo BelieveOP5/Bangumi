@@ -8,10 +8,10 @@ import java.util.List;
  * Created by BelieveOP5 on 2017/1/30.
  */
 
-public class EpisodeStatus {
+public class MyEpisodeStatus {
 
     /**
-     * subject_id : 975
+     * subject_id : 147068
      * eps : []
      */
 
@@ -36,7 +36,7 @@ public class EpisodeStatus {
 
     public static class EpsBean {
         /**
-         * id : 1807
+         * id : 648817
          * status : {"id":2,"css_name":"Watched","url_name":"watched","cn_name":"看过"}
          */
 
@@ -105,4 +105,5 @@ public class EpisodeStatus {
             }
         }
     }
+
 }

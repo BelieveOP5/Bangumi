@@ -53,6 +53,15 @@ public class UserPreferences {
         saveAuthEncode(context, token.getAuth_encode());
     }
 
+    public static int getId(Context context) {
+        return SharedPreferencesUtils.getInt(
+                context,
+                PREFERENCES_FILE_NAME,
+                Constants.LOGIN_USER_ID_KEY,
+                0
+        );
+    }
+
     private static boolean saveId(Context context, int id) {
         return SharedPreferencesUtils.putInt(
                 context,
@@ -140,6 +149,15 @@ public class UserPreferences {
                 PREFERENCES_FILE_NAME,
                 Constants.LOGIN_SIGN_KEY,
                 sign
+        );
+    }
+
+    public static String getAuth(Context context) {
+        return SharedPreferencesUtils.getString(
+                context,
+                PREFERENCES_FILE_NAME,
+                Constants.LOGIN_AUTH_KEY,
+                ""
         );
     }
 

@@ -95,21 +95,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //                .transform(new Transfrom())
                 .into(holder.mImageView);
 
-        /**
-         * 设置监听事件
-         */
-        holder.itemView.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mListener.onItemClick(
-                                holder.mImageView,
-                                item
-                        );
-                    }
-                }
-        );
-
     }
 
     /**
@@ -119,19 +104,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemCount() {
         return mBangumiItemList.size();
-    }
-
-    private OnItemClickListener mListener;
-
-    /**
-     * 监听接口
-     */
-    public interface OnItemClickListener {
-        void onItemClick(View view, BangumiItem item);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.mListener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

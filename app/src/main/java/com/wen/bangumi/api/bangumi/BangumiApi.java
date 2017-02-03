@@ -1,6 +1,7 @@
 package com.wen.bangumi.api.bangumi;
 
 import com.wen.bangumi.responseentity.DailyCalendar;
+import com.wen.bangumi.responseentity.MyEpisodeStatus;
 import com.wen.bangumi.responseentity.Token;
 
 import java.util.List;
@@ -36,6 +37,19 @@ public interface BangumiApi {
     @POST("auth?source=onAir")
     Observable<Token> login(@Field("username") String username,
                             @Field("password") String password);
+
+
+    /**
+     * 获取番剧的每集状态，比如第一集看过，第二季抛弃，想看等状态
+     * @param id 登录后返回的用户id
+     * @param subject_id 番剧 id
+     * @param auth 登录成功后的 auth 信息
+     * @return
+     */
+    @GET("user/{user}/progress?source=onAir")
+    Observable<MyEpisodeStatus> loadMyEpisodeStatus(@Path("user") int id,
+                                                    @Query("subject_id") String subject_id,
+                                                    @Query("auth") String auth);
 
 
     /**

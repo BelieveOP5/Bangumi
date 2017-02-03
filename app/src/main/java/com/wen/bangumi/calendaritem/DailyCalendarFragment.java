@@ -88,26 +88,6 @@ public class DailyCalendarFragment extends BaseFragment implements DailyCalendar
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
 
-        mRecyclerViewAdapter.setOnItemClickListener(
-                new RecyclerViewAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, BangumiItem item) {
-                        Intent intent = new Intent(getActivity(), BangumiDetailActivity.class);
-                        intent.putExtra("Bangumi_id", item.getBangumi_id());
-                        intent.putExtra("Name_cn", item.getName_cn());
-                        intent.putExtra("Large_image", item.getLarge_image());
-                        startActivity(
-                                intent,
-                                ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                        getActivity(),
-                                        view,
-                                        "image_view"
-                                ).toBundle()
-                        );
-                    }
-                }
-        );
-
         mNoBangumiView =  root.findViewById(R.id.noBangumi);
 
         final ScrollChildSwipeRefreshLayout swipeRefreshLayout =
