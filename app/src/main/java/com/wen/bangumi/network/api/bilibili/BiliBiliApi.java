@@ -1,6 +1,6 @@
 package com.wen.bangumi.network.api.bilibili;
 
-import com.wen.bangumi.entity.TimeLine_BiliBili;
+import com.wen.bangumi.entity.calendar.TimeLine_BiliBili;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
