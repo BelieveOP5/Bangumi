@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wen.bangumi.R;
-import com.wen.bangumi.base.BaseFragment;
+import com.wen.bangumi.base.BaseLazyFragment;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.module.bangumidetail.BangumiDetailActivity;
 import com.wen.bangumi.util.ScrollChildSwipeRefreshLayout;
@@ -26,7 +26,7 @@ import java.util.List;
  * Created by BelieveOP5 on 2017/1/28.
  */
 
-public class SingleCollFragment extends BaseFragment implements SingleCollContract.View{
+public class SingleCollLazyFragment extends BaseLazyFragment implements SingleCollContract.View{
 
     private BangumiStatus status;
 
@@ -41,9 +41,9 @@ public class SingleCollFragment extends BaseFragment implements SingleCollContra
 
     private View mNoBangumiView;
 
-    public static SingleCollFragment newInstance(BangumiStatus status) {
+    public static SingleCollLazyFragment newInstance(BangumiStatus status) {
         Bundle args = new Bundle();
-        SingleCollFragment fragment = new SingleCollFragment();
+        SingleCollLazyFragment fragment = new SingleCollLazyFragment();
         fragment.setStatus(status);
         fragment.setArguments(args);
         return fragment;

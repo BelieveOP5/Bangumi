@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.wen.bangumi.base.BaseFragment;
+import com.wen.bangumi.base.BaseLazyFragment;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.util.ScrollChildSwipeRefreshLayout;
 import com.wen.bangumi.R;
@@ -25,10 +25,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by BelieveOP5 on 2017/1/16.
  */
 
-public class DailyCalendarFragment extends BaseFragment implements DailyCalendarContract.View{
+public class DailyCalendarLazyFragment extends BaseLazyFragment implements DailyCalendarContract.View{
 
     @NonNull
-    private static final String TAG = "DailyCalendarFragment";
+    private static final String TAG = "DailyCalendarLazyFragment";
 
     private WeekDay weekday;
 
@@ -48,10 +48,10 @@ public class DailyCalendarFragment extends BaseFragment implements DailyCalendar
      * @param date 该DailyCalendarFragment是属于哪一个日期的
      * @return
      */
-    public static DailyCalendarFragment newInstance(WeekDay date) {
+    public static DailyCalendarLazyFragment newInstance(WeekDay date) {
 
         Bundle args = new Bundle();
-        DailyCalendarFragment fragment = new DailyCalendarFragment();
+        DailyCalendarLazyFragment fragment = new DailyCalendarLazyFragment();
         fragment.setDate(date);
         fragment.setArguments(args);
         return fragment;

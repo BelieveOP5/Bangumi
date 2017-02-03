@@ -10,7 +10,7 @@ import com.wen.bangumi.R;
  * Created by BelieveOP5 on 2017/1/28.
  */
 
-public class BaseFragment extends Fragment {
+public class BaseLazyFragment extends Fragment {
 
     /**
      * 显示正在读取的旋转小圆圈

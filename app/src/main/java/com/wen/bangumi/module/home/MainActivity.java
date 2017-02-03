@@ -25,7 +25,7 @@ import com.wen.bangumi.module.calendaritem.WeekDay;
 import com.wen.bangumi.event.Event;
 import com.wen.bangumi.module.user.UserPreferences;
 import com.wen.bangumi.util.Injection;
-import com.wen.bangumi.module.calendaritem.DailyCalendarFragment;
+import com.wen.bangumi.module.calendaritem.DailyCalendarLazyFragment;
 import com.wen.bangumi.module.calendaritem.DailyCalendarPresenter;
 import com.wen.bangumi.greenDAO.DaoMaster;
 import com.wen.bangumi.greenDAO.DaoSession;
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
 
         final ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         for (Map.Entry<WeekDay, String> i : map.entrySet()) {
-            DailyCalendarFragment fragment = DailyCalendarFragment.newInstance(i.getKey());
+            DailyCalendarLazyFragment fragment = DailyCalendarLazyFragment.newInstance(i.getKey());
             mViewPagerAdapter.addItem(fragment, i.getValue());
             new DailyCalendarPresenter(
                     Injection.provideCalendarRepository(),

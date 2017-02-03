@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.wen.bangumi.R;
 import com.wen.bangumi.module.collection.BangumiStatus;
-import com.wen.bangumi.module.collection.SingleCollFragment;
+import com.wen.bangumi.module.collection.SingleCollLazyFragment;
 import com.wen.bangumi.module.collection.SingleCollPresent;
 import com.wen.bangumi.util.Injection;
 
@@ -58,7 +58,7 @@ public class HomePageActivity extends AppCompatActivity {
 
         final ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         for (Map.Entry<BangumiStatus, String> i : map.entrySet()) {
-            SingleCollFragment fragment = SingleCollFragment.newInstance(i.getKey());
+            SingleCollLazyFragment fragment = SingleCollLazyFragment.newInstance(i.getKey());
             viewPagerAdapter.addItem(fragment, i.getValue());
             new SingleCollPresent(
                     Injection.provideCollectionRepository(),
