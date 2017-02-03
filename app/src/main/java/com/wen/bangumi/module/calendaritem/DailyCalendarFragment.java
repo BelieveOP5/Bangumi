@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.wen.bangumi.base.BaseLazyFragment;
 import com.wen.bangumi.greenDAO.BangumiItem;
-import com.wen.bangumi.util.ScrollChildSwipeRefreshLayout;
 import com.wen.bangumi.R;
 
 import java.util.ArrayList;
@@ -85,10 +84,8 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
 
         mNoBangumiView =  root.findViewById(R.id.noBangumi);
 
-        final ScrollChildSwipeRefreshLayout swipeRefreshLayout =
-                (ScrollChildSwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
-
-        swipeRefreshLayout.setScrollUpChild(mRecyclerView);
+        final SwipeRefreshLayout swipeRefreshLayout =
+                (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
 
         swipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -98,6 +95,8 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
                     }
                 }
         );
+
+        isPrepared = true;
 
         return root;
     }
@@ -109,10 +108,18 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
     public void onResume() {
         super.onResume();
 
-        // FIXME: 2017/1/27 每次界面加载完成之后，再回到该界面的话会出现重新加载的情况
         //获取数据
-        mPresenter.subscribe(weekday);
+        if (!isPrepared || !isVisible)
+            return;
 
+        lazyLoad();
+        isPrepared = false;
+
+    }
+
+    @Override
+    protected void lazyLoad() {
+        mPresenter.subscribe(weekday);
     }
 
     @Override

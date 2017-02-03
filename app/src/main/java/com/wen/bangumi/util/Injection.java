@@ -19,8 +19,6 @@ package com.wen.bangumi.util;
 import com.wen.bangumi.data.CalendarRepository;
 import com.wen.bangumi.data.CollectionRepository;
 import com.wen.bangumi.data.LoginRepository;
-import com.wen.bangumi.util.scheduler.BaseSchedulerProvider;
-import com.wen.bangumi.util.scheduler.SchedulerProvider;
 
 /**
  * Enables injection of production implementations for
@@ -38,10 +36,6 @@ public class Injection {
 
     public static CalendarRepository provideCalendarRepository() {
         return CalendarRepository.getInstance();
-    }
-
-    public static BaseSchedulerProvider provideSchedulerProvider() {
-        return SchedulerProvider.getInstance();
     }
 
 }

@@ -3,16 +3,16 @@ package com.wen.bangumi.module.calendaritem;
 import android.support.annotation.NonNull;
 
 import com.wen.bangumi.data.CalendarRepository;
-import com.wen.bangumi.util.EspressoIdlingResource;
 import com.wen.bangumi.greenDAO.BangumiItem;
-import com.wen.bangumi.util.scheduler.BaseSchedulerProvider;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -28,9 +28,6 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
     @NonNull
     private final DailyCalendarContract.View mDailyCalendarView;
 
-    @NonNull
-    private final BaseSchedulerProvider mSchedulerProvider;
-
     /**
      * RxJava1.0版本的是CompositeSubscription, 对应RxJava2.0版本的CompositeDisposable
      * @see <a href="https://github.com/ReactiveX/RxJava/wiki/What's-different-in-2.0#subscription"></a>
@@ -44,11 +41,9 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
     private boolean mFirstLoad = true;
 
     public DailyCalendarPresenter(@NonNull CalendarRepository mCalendarRepository,
-                                  @NonNull DailyCalendarContract.View view,
-                                  @NonNull BaseSchedulerProvider mSchedulerProvider) {
+                                  @NonNull DailyCalendarContract.View view) {
         this.mCalendarRepository = checkNotNull(mCalendarRepository, "mCalendarRepository cannot be null!");
         this.mDailyCalendarView = checkNotNull(view, "mDailyCalendarView cannot be null!");
-        this.mSchedulerProvider = checkNotNull(mSchedulerProvider, "mSchedulerProvider cannot be null!");
 
         mCompositeDisposable = new CompositeDisposable();
         view.setPresenter(this);
@@ -96,10 +91,6 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
             mCalendarRepository.refreshBangumi();
         }
 
-        // The network request might be handled in a different thread so make sure Espresso knows
-        // that the app is busy until the response is handled.
-        EspressoIdlingResource.increment(); // App is busy until further notice
-
         //不管是第一次加载还是需要强制刷新，都应该清除
         mCompositeDisposable.clear();
         Disposable disposable = mCalendarRepository
@@ -108,16 +99,8 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
                  * subscribeOn(): 指定 Subscribe()所发生的线程,即Observable.OnSubscribe 被激活时所处的线程,或者叫做事件产生的线程
                  * observeOn(): 指定 Subscriber 所运行在的线程。或者叫做事件消费的线程。
                  */
-                .subscribeOn(mSchedulerProvider.io())
-                .observeOn(mSchedulerProvider.ui())
-                .doOnTerminate(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
-                            EspressoIdlingResource.decrement(); // Set app as idle.
-                        }
-                    }
-                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         //不用lambda表达式,不用Jack编译，用这两个经常容易出现NoMethodError，原因不明
                         new Consumer<List<BangumiItem>>() {

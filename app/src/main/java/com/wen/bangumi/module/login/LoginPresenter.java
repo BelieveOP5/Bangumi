@@ -8,14 +8,15 @@ import com.wen.bangumi.data.LoginRepository;
 import com.wen.bangumi.event.Event;
 import com.wen.bangumi.entity.user.Token;
 import com.wen.bangumi.module.user.UserPreferences;
-import com.wen.bangumi.util.scheduler.BaseSchedulerProvider;
 
 import org.greenrobot.eventbus.EventBus;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -32,17 +33,12 @@ public class LoginPresenter implements LoginContract.Presenter{
     private final LoginContract.View mLoginView;
 
     @NonNull
-    private final BaseSchedulerProvider mSchedulerProvider;
-
-    @NonNull
     private CompositeDisposable mCompositeDisposable;
 
     public LoginPresenter(@NonNull LoginRepository loginRepository,
-                          @NonNull LoginContract.View loginView,
-                          @NonNull BaseSchedulerProvider schedulerProvider) {
+                          @NonNull LoginContract.View loginView) {
         this.mLoginRepository = checkNotNull(loginRepository, "loginRepository cannot be null!");
         this.mLoginView = checkNotNull(loginView, "loginView cannot be null!");
-        this.mSchedulerProvider = checkNotNull(schedulerProvider, "schedulerProvider cannot be null!");
 
         this.mCompositeDisposable = new CompositeDisposable();
         this.mLoginView.setPresenter(this);
@@ -74,8 +70,8 @@ public class LoginPresenter implements LoginContract.Presenter{
         mCompositeDisposable.clear();
         Disposable disposable = mLoginRepository
                 .login(mail, pwd)
-                .subscribeOn(mSchedulerProvider.computation())
-                .observeOn(mSchedulerProvider.ui())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         new Consumer<Token>() {
                             @Override

@@ -1,7 +1,12 @@
 package com.wen.bangumi.base;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.wen.bangumi.R;
 
@@ -18,24 +23,6 @@ public class BaseLazyFragment extends Fragment {
     //标志位 fragment是否可见
     protected boolean isVisible;
 
-    /**
-     * 显示正在读取的旋转小圆圈
-     * @param active
-     */
-    public void refresh(final boolean active) {
-
-        if (getView() == null) return;
-        final SwipeRefreshLayout srl =
-                (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
-        srl.post(new Runnable() {
-            @Override
-            public void run() {
-                srl.setRefreshing(active);
-            }
-        });
-
-    }
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -49,7 +36,6 @@ public class BaseLazyFragment extends Fragment {
     }
 
     protected void OnVisible() {
-
         lazyLoad();
     }
 
@@ -57,5 +43,24 @@ public class BaseLazyFragment extends Fragment {
 
     protected void lazyLoad() {}
 
+    /**
+     * 显示正在读取的旋转小圆圈
+     * @param active
+     */
+    public void refresh(final boolean active) {
+
+        if (getView() == null) return;
+
+        final SwipeRefreshLayout srl =
+                (SwipeRefreshLayout) getView().findViewById(R.id.refresh_layout);
+
+        srl.post(new Runnable() {
+            @Override
+            public void run() {
+                srl.setRefreshing(active);
+            }
+        });
+
+    }
 
 }

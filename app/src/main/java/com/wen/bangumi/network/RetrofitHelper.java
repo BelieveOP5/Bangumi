@@ -55,6 +55,7 @@ public class RetrofitHelper {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(baseUrl)
+                .client(mOkHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
 
         switch (baseUrl) {

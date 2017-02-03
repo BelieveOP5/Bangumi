@@ -201,8 +201,8 @@ public class MainActivity extends AppCompatActivity {
             mViewPagerAdapter.addItem(fragment, i.getValue());
             new DailyCalendarPresenter(
                     Injection.provideCalendarRepository(),
-                    fragment,
-                    Injection.provideSchedulerProvider());
+                    fragment
+            );
         }
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);

@@ -17,7 +17,6 @@ import com.wen.bangumi.R;
 import com.wen.bangumi.base.BaseLazyFragment;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.module.bangumidetail.BangumiDetailActivity;
-import com.wen.bangumi.util.ScrollChildSwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ import java.util.List;
  * Created by BelieveOP5 on 2017/1/28.
  */
 
-public class SingleCollLazyFragment extends BaseLazyFragment implements SingleCollContract.View{
+public class SingleCollFragment extends BaseLazyFragment implements SingleCollContract.View{
 
     private BangumiStatus status;
 
@@ -41,9 +40,9 @@ public class SingleCollLazyFragment extends BaseLazyFragment implements SingleCo
 
     private View mNoBangumiView;
 
-    public static SingleCollLazyFragment newInstance(BangumiStatus status) {
+    public static SingleCollFragment newInstance(BangumiStatus status) {
         Bundle args = new Bundle();
-        SingleCollLazyFragment fragment = new SingleCollLazyFragment();
+        SingleCollFragment fragment = new SingleCollFragment();
         fragment.setStatus(status);
         fragment.setArguments(args);
         return fragment;
@@ -114,10 +113,8 @@ public class SingleCollLazyFragment extends BaseLazyFragment implements SingleCo
                 break;
         }
 
-        final ScrollChildSwipeRefreshLayout swipeRefreshLayout =
-                (ScrollChildSwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
-
-        swipeRefreshLayout.setScrollUpChild(mRecyclerView);
+        final SwipeRefreshLayout swipeRefreshLayout =
+                (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
 
         swipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -127,12 +124,25 @@ public class SingleCollLazyFragment extends BaseLazyFragment implements SingleCo
                     }
                 }
         );
+
+        isPrepared = true;
         return root;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        //获取数据
+        if (!isPrepared || !isVisible)
+            return;
+
+        mPresenter.subscribe(status);
+        isPrepared = false;
+    }
+
+    @Override
+    protected void lazyLoad() {
         mPresenter.subscribe(status);
     }
 

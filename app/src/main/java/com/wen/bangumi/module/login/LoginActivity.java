@@ -36,8 +36,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
         new LoginPresenter(
                 Injection.provideLoginRepository(),
-                this,
-                Injection.provideSchedulerProvider()
+                this
         );
 
         setupButton();
