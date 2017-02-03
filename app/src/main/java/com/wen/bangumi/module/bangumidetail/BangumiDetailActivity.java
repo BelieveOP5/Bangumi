@@ -27,7 +27,7 @@ import com.squareup.picasso.Picasso;
 import com.wen.bangumi.Bangumi;
 import com.wen.bangumi.R;
 import com.wen.bangumi.network.RetrofitHelper;
-import com.wen.bangumi.entity.EpisodesEntity;
+import com.wen.bangumi.entity.calendar.EpisodesEntity;
 import com.wen.bangumi.entity.MyEpisodeStatus;
 import com.wen.bangumi.module.user.UserPreferences;
 import com.wen.bangumi.util.JsoupUtils;

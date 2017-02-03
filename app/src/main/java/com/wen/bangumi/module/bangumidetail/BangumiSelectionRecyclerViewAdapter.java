@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.wen.bangumi.Bangumi;
 import com.wen.bangumi.R;
-import com.wen.bangumi.entity.EpisodesEntity;
+import com.wen.bangumi.entity.calendar.EpisodesEntity;
 
 import java.util.List;
 
