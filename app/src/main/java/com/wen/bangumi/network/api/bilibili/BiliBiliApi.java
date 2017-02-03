@@ -1,4 +1,4 @@
-package com.wen.bangumi.api;
+package com.wen.bangumi.network.api.bilibili;
 
 import com.wen.bangumi.responseentity.TimeLine_BiliBili;
 

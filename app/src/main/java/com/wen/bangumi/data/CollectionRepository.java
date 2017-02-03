@@ -4,9 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.wen.bangumi.Bangumi;
-import com.wen.bangumi.api.bangumi.BangumiApi;
 import com.wen.bangumi.collection.BangumiStatus;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.network.RetrofitHelper;
@@ -14,15 +12,10 @@ import com.wen.bangumi.user.UserPreferences;
 import com.wen.bangumi.util.JsoupUtils;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Function;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 /**

@@ -3,11 +3,7 @@ package com.wen.bangumi.data;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.wen.bangumi.api.BiliBiliApi;
-import com.wen.bangumi.api.bangumi.BangumiApi;
 import com.wen.bangumi.calendar.MainActivity;
 import com.wen.bangumi.calendaritem.WeekDay;
 import com.wen.bangumi.greenDAO.BangumiItem;
@@ -23,17 +19,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Function;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by BelieveOP5 on 2017/1/18.

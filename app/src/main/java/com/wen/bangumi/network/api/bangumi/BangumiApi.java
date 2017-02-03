@@ -1,4 +1,4 @@
-package com.wen.bangumi.api.bangumi;
+package com.wen.bangumi.network.api.bangumi;
 
 import com.wen.bangumi.responseentity.DailyCalendar;
 import com.wen.bangumi.responseentity.MyEpisodeStatus;

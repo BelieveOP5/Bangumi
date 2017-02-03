@@ -33,7 +33,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class DailyCalendarFragment extends BaseFragment implements DailyCalendarContract.View{
 
     @NonNull
-    private static final String CURRENT_POSITION = "DailyCalendarFragment";
+    private static final String TAG = "DailyCalendarFragment";
 
     private WeekDay weekday;
 
