@@ -1,21 +1,16 @@
-package com.wen.bangumi.calendaritem;
+package com.wen.bangumi.module.calendaritem;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.wen.bangumi.BangumiDetail.BangumiDetailActivity;
 import com.wen.bangumi.base.BaseFragment;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.util.ScrollChildSwipeRefreshLayout;

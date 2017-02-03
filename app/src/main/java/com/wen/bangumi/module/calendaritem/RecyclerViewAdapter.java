@@ -1,4 +1,4 @@
-package com.wen.bangumi.calendaritem;
+package com.wen.bangumi.module.calendaritem;
 
 import android.content.Context;
 import android.graphics.Bitmap;

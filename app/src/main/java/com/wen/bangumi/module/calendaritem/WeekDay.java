@@ -1,4 +1,4 @@
-package com.wen.bangumi.calendaritem;
+package com.wen.bangumi.module.calendaritem;
 
 /**
  * Created by BelieveOP5 on 2017/1/28.

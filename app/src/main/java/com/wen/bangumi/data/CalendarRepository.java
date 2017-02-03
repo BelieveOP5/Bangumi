@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.wen.bangumi.calendar.MainActivity;
-import com.wen.bangumi.calendaritem.WeekDay;
+import com.wen.bangumi.module.calendaritem.WeekDay;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.greenDAO.BangumiItemDao;
 import com.wen.bangumi.greenDAO.DaoSession;

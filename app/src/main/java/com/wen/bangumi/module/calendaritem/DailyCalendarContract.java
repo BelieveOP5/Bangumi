@@ -1,4 +1,4 @@
-package com.wen.bangumi.calendaritem;
+package com.wen.bangumi.module.calendaritem;
 
 import com.wen.bangumi.base.BasePresenter;
 import com.wen.bangumi.base.BaseView;

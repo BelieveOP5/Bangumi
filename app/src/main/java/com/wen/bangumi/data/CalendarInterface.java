@@ -2,7 +2,7 @@ package com.wen.bangumi.data;
 
 import android.support.annotation.NonNull;
 
-import com.wen.bangumi.calendaritem.WeekDay;
+import com.wen.bangumi.module.calendaritem.WeekDay;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.entity.DailyCalendar;
 import com.wen.bangumi.entity.TimeLine_BiliBili;
