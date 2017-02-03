@@ -1,4 +1,4 @@
-package com.wen.bangumi.module.calendar;
+package com.wen.bangumi.module.home;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;

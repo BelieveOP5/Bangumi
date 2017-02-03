@@ -1,4 +1,4 @@
-package com.wen.bangumi.module.calendar;
+package com.wen.bangumi.module.home;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

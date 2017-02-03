@@ -12,7 +12,7 @@
         使用这些主题中的一个可以防止应用使用原生 ActionBar 类提供应用栏。  -->
 
         <activity
-            android:name=".module.calendar.MainActivity"
+            android:name=".module.home.MainActivity"
             android:theme="@style/BaseTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
