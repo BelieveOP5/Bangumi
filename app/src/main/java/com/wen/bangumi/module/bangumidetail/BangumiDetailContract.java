@@ -1,4 +1,4 @@
-package com.wen.bangumi.BangumiDetail;
+package com.wen.bangumi.module.bangumidetail;
 
 import com.wen.bangumi.base.BasePresenter;
 import com.wen.bangumi.base.BaseView;

@@ -29,7 +29,7 @@
             android:theme="@style/BaseTheme" />
 
         <activity
-            android:name=".BangumiDetail.BangumiDetailActivity"
+            android:name=".module.bangumidetail.BangumiDetailActivity"
             android:theme="@style/BaseTheme" />
 
     </application>

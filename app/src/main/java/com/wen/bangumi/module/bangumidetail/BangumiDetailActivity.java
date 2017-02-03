@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.wen.bangumi.BangumiDetail;
+package com.wen.bangumi.module.bangumidetail;
 
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;

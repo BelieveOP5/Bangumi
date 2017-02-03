@@ -1,4 +1,4 @@
-package com.wen.bangumi.BangumiDetail;
+package com.wen.bangumi.module.bangumidetail;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
