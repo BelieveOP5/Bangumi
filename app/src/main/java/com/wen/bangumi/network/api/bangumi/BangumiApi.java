@@ -1,8 +1,8 @@
 package com.wen.bangumi.network.api.bangumi;
 
-import com.wen.bangumi.responseentity.DailyCalendar;
-import com.wen.bangumi.responseentity.MyEpisodeStatus;
-import com.wen.bangumi.responseentity.Token;
+import com.wen.bangumi.entity.DailyCalendar;
+import com.wen.bangumi.entity.MyEpisodeStatus;
+import com.wen.bangumi.entity.Token;
 
 import java.util.List;
 

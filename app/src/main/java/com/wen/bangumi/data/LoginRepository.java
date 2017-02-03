@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.wen.bangumi.network.RetrofitHelper;
-import com.wen.bangumi.responseentity.Token;
+import com.wen.bangumi.entity.Token;
 
 import io.reactivex.Observable;
 

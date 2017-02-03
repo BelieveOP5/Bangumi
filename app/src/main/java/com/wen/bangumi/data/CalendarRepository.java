@@ -10,8 +10,8 @@ import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.greenDAO.BangumiItemDao;
 import com.wen.bangumi.greenDAO.DaoSession;
 import com.wen.bangumi.network.RetrofitHelper;
-import com.wen.bangumi.responseentity.DailyCalendar;
-import com.wen.bangumi.responseentity.TimeLine_BiliBili;
+import com.wen.bangumi.entity.DailyCalendar;
+import com.wen.bangumi.entity.TimeLine_BiliBili;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

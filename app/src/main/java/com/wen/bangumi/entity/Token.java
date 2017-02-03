@@ -1,4 +1,4 @@
-package com.wen.bangumi.responseentity;
+package com.wen.bangumi.entity;
 
 /**
  * Created by BelieveOP5 on 2017/1/24.

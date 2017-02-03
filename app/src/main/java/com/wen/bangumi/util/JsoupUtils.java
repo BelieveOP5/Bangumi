@@ -1,7 +1,7 @@
 package com.wen.bangumi.util;
 
 import com.wen.bangumi.greenDAO.BangumiItem;
-import com.wen.bangumi.responseentity.EpisodesEntity;
+import com.wen.bangumi.entity.EpisodesEntity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

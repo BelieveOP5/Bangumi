@@ -1,4 +1,4 @@
-package com.wen.bangumi.responseentity;
+package com.wen.bangumi.entity;
 
 import java.util.List;
 
