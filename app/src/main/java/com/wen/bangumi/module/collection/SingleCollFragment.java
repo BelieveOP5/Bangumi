@@ -1,6 +1,7 @@
 package com.wen.bangumi.module.collection;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -13,13 +14,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 import com.wen.bangumi.R;
 import com.wen.bangumi.base.BaseLazyFragment;
+import com.wen.bangumi.base.QuickAdapter;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.module.bangumidetail.BangumiDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by BelieveOP5 on 2017/1/28.
@@ -34,7 +40,7 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
     }
 
     private RecyclerView mRecyclerView;
-    private RecyclerViewAdapter mRecyclerViewAdapter;
+    private QuickAdapter<BangumiItem> adapter;
 
     private SingleCollContract.Presenter mPresenter;
 
@@ -56,7 +62,56 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRecyclerViewAdapter = new RecyclerViewAdapter(new ArrayList<BangumiItem>(), getActivity());
+    }
+
+    @Override
+    protected void initAdapter() {
+
+        adapter = new QuickAdapter<BangumiItem>(new ArrayList<BangumiItem>()) {
+
+            @Override
+            public int getLayoutId(int viewType) {
+                return R.layout.single_coll_item;
+            }
+
+            @Override
+            public void convert(final VH holder, final BangumiItem data, int position) {
+
+                holder.setText(R.id.item_title, data.getName_cn());
+                holder.setImage(R.id.item_image, data.getLarge_image());
+
+                holder.itemView.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), BangumiDetailActivity.class);
+                                intent.putExtra("Bangumi_id", data.getBangumi_id());
+                                intent.putExtra("Name_cn", data.getName_cn());
+                                intent.putExtra("Large_image", data.getLarge_image());
+                                startActivity(
+                                        intent,
+                                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                                getActivity(),
+                                                holder.getView(R.id.item_image),
+                                                "image_view"
+                                        ).toBundle()
+                                );
+                            }
+                        }
+                );
+            }
+
+            @Override
+            public void replaceData(List<BangumiItem> mBangumiItemList) {
+                setDatas(mBangumiItemList);
+                /**
+                 * 提醒observers中数据已经发生了改变，相应的RecyclerView需要发生改变
+                 */
+                notifyDataSetChanged();
+            }
+
+        };
+
     }
 
     @Nullable
@@ -68,27 +123,7 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
 
         mRecyclerView = (RecyclerView) root.findViewById(R.id.bangumi_list);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        mRecyclerView.setAdapter(mRecyclerViewAdapter);
-
-        mRecyclerViewAdapter.setOnItemClickListener(
-                new com.wen.bangumi.module.collection.RecyclerViewAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, BangumiItem item) {
-                        Intent intent = new Intent(getActivity(), BangumiDetailActivity.class);
-                        intent.putExtra("Bangumi_id", item.getBangumi_id());
-                        intent.putExtra("Name_cn", item.getName_cn());
-                        intent.putExtra("Large_image", item.getLarge_image());
-                        startActivity(
-                                intent,
-                                ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                        getActivity(),
-                                        view,
-                                        "image_view"
-                                ).toBundle()
-                        );
-                    }
-                }
-        );
+        mRecyclerView.setAdapter(adapter);
 
         mNoBangumiView = root.findViewById(R.id.no_bangumi_layout);
         TextView textView = (TextView) root.findViewById(R.id.no_bangumi_text);
@@ -112,6 +147,8 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
             default:
                 break;
         }
+
+        showBangumiView();
 
         final SwipeRefreshLayout swipeRefreshLayout =
                 (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
@@ -137,7 +174,7 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
         if (!isPrepared || !isVisible)
             return;
 
-        mPresenter.subscribe(status);
+        lazyLoad();
         isPrepared = false;
     }
 
@@ -146,14 +183,24 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
         mPresenter.subscribe(status);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.unsubscribe();
+    }
+
     /**
      * 显示某日的番剧
      * @param mBangumiItemList 当日的番剧列表
      */
     @Override
     public void showCollBangumi(List<BangumiItem> mBangumiItemList) {
-        mRecyclerViewAdapter.replaceData(mBangumiItemList);
+        adapter.replaceData(mBangumiItemList);
 
+        showBangumiView();
+    }
+
+    public void showBangumiView() {
         mRecyclerView.setVisibility(View.VISIBLE);
         mNoBangumiView.setVisibility(View.GONE);
     }

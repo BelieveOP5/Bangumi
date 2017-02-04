@@ -65,20 +65,19 @@ public class SingleCollPresent implements SingleCollContract.Presenter {
 
     @Override
     public void loadBangumi(BangumiStatus status, boolean forceUpdate) {
-        loadBangumi(status, forceUpdate || mFirstLoad, true);
+        loadData(status, forceUpdate || mFirstLoad);
         mFirstLoad = false;
     }
 
-    private void loadBangumi(BangumiStatus status, boolean forceUpdate, final boolean showLoadingUI) {
-        if (showLoadingUI) {
-            mSingleCollView.setLoadingIndicator(true);
-        }
+    private void loadData(BangumiStatus status, boolean forceUpdate) {
 
         if (forceUpdate) {
             mCollectionRepository.refreshBangumi();
+            mSingleCollView.setLoadingIndicator(true);
         }
 
         mCompositeDisposable.clear();
+
         Disposable disposable = mCollectionRepository
                 .loadBangumi(status)
                 .subscribeOn(Schedulers.io())

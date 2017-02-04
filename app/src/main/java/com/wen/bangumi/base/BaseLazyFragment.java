@@ -43,8 +43,10 @@ public class BaseLazyFragment extends Fragment {
 
     protected void lazyLoad() {}
 
+    protected void initAdapter() {}
+
     /**
-     * 显示正在读取的旋转小圆圈
+     * Whether or not the view should show refresh progress.
      * @param active
      */
     public void refresh(final boolean active) {

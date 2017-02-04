@@ -73,26 +73,29 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
      */
     @Override
     public void loadDailyCalendar(WeekDay weekday, boolean forceUpdate) {
-        loadDailyCalendar(weekday, forceUpdate || mFirstLoad, true);
+        loadData(weekday, forceUpdate || mFirstLoad);
         mFirstLoad = false;
     }
 
-    /**
-     * 加载一日的番剧列表
-     * @param forceUpdate   是否为强制刷新
-     * @param showLoadingUI 是否显示加载图标
-     */
-    private void loadDailyCalendar(WeekDay weekday, boolean forceUpdate, final boolean showLoadingUI) {
-        if (showLoadingUI) {
-            mDailyCalendarView.setLoadingIndicator(true);
-        }
 
+    /**
+     *
+     * @param weekday
+     * @param forceUpdate
+     */
+    private void loadData(WeekDay weekday, boolean forceUpdate) {
+
+        /**
+         * 如果是第一次加载或者强制刷新，则显示刷新小圆圈
+         */
         if (forceUpdate) {
             mCalendarRepository.refreshBangumi();
+            mDailyCalendarView.setLoadingIndicator(true);
         }
 
         //不管是第一次加载还是需要强制刷新，都应该清除
         mCompositeDisposable.clear();
+
         Disposable disposable = mCalendarRepository
                 .loadBangumi(weekday)
                 /**

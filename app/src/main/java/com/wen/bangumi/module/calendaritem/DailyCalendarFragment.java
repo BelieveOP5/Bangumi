@@ -27,7 +27,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class DailyCalendarFragment extends BaseLazyFragment implements DailyCalendarContract.View{
 
     @NonNull
-    private static final String TAG = "DailyCalendarFragment";
+    static final String TAG = "DailyCalendarFragment";
 
     private WeekDay weekday;
 
@@ -84,6 +84,8 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
 
         mNoBangumiView =  root.findViewById(R.id.noBangumi);
 
+        showBangumiView();
+
         final SwipeRefreshLayout swipeRefreshLayout =
                 (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
 
@@ -123,6 +125,12 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.unsubscribe();
+    }
+
+    @Override
     public void setPresenter(@NonNull DailyCalendarContract.Presenter presenter) {
         this.mPresenter = checkNotNull(presenter);
     }
@@ -134,7 +142,11 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
     @Override
     public void showDailyCalendar(List<BangumiItem> mBangumiItemList) {
         mRecyclerViewAdapter.replaceData(mBangumiItemList);
+        showBangumiView();
+    }
 
+    @Override
+    public void showBangumiView() {
         mRecyclerView.setVisibility(View.VISIBLE);
         mNoBangumiView.setVisibility(View.GONE);
     }
