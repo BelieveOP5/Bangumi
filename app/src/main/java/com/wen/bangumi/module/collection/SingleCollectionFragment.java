@@ -29,7 +29,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by BelieveOP5 on 2017/1/28.
  */
 
-public class SingleCollFragment extends BaseLazyFragment implements SingleCollContract.View{
+public class SingleCollectionFragment extends BaseLazyFragment implements SingleCollectionContract.View{
 
     private BangumiStatus status;
 
@@ -41,20 +41,20 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
     private QuickAdapter<BangumiItem> adapter;
     NormalAdapterWrapper<QuickAdapter<BangumiItem>> newAdapter;
 
-    private SingleCollContract.Presenter mPresenter;
+    private SingleCollectionContract.Presenter mPresenter;
 
     private View mNoBangumiView;
 
-    public static SingleCollFragment newInstance(BangumiStatus status) {
+    public static SingleCollectionFragment newInstance(BangumiStatus status) {
         Bundle args = new Bundle();
-        SingleCollFragment fragment = new SingleCollFragment();
+        SingleCollectionFragment fragment = new SingleCollectionFragment();
         fragment.setStatus(status);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void setPresenter(SingleCollContract.Presenter presenter) {
+    public void setPresenter(SingleCollectionContract.Presenter presenter) {
         this.mPresenter = presenter;
     }
 

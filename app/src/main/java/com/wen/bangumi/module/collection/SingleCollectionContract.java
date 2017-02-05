@@ -10,7 +10,7 @@ import java.util.List;
  * Created by BelieveOP5 on 2017/1/28.
  */
 
-public interface SingleCollContract {
+public interface SingleCollectionContract {
 
     interface View extends BaseView<Presenter> {
 

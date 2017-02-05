@@ -20,9 +20,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by BelieveOP5 on 2017/1/28.
  */
 
-public class SingleCollPresent implements SingleCollContract.Presenter {
+public class SingleCollectionPresent implements SingleCollectionContract.Presenter {
 
-    private SingleCollContract.View mSingleCollView;
+    private SingleCollectionContract.View mSingleCollView;
 
     @NonNull
     private final CollectionRepository mCollectionRepository;
@@ -34,8 +34,8 @@ public class SingleCollPresent implements SingleCollContract.Presenter {
     @NonNull
     private CompositeDisposable mCompositeDisposable;
 
-    public SingleCollPresent(@NonNull CollectionRepository collectionRepository,
-                             @NonNull SingleCollContract.View view) {
+    public SingleCollectionPresent(@NonNull CollectionRepository collectionRepository,
+                                   @NonNull SingleCollectionContract.View view) {
         mCollectionRepository = checkNotNull(collectionRepository, "CollectionRepository cannot be null!");
         mSingleCollView = checkNotNull(view, "SingleCollView cannot be null!");
 
