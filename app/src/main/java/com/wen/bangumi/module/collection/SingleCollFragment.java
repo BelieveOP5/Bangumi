@@ -1,7 +1,6 @@
 package com.wen.bangumi.module.collection;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -14,10 +13,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.Picasso;
 import com.wen.bangumi.R;
 import com.wen.bangumi.base.BaseLazyFragment;
+import com.wen.bangumi.base.NormalAdapterWrapper;
 import com.wen.bangumi.base.QuickAdapter;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.module.bangumidetail.BangumiDetailActivity;
@@ -73,7 +71,7 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
 
             @Override
             public int getLayoutId(int viewType) {
-                return R.layout.single_coll_item;
+                return R.layout.single_collection_item;
             }
 
             @Override
@@ -112,10 +110,12 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.single_coll_frag, container, false);
+        View root = inflater.inflate(R.layout.single_collection_frag, container, false);
 
         mRecyclerView = (RecyclerView) root.findViewById(R.id.bangumi_list);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+
+        NormalAdapterWrapper<QuickAdapter<BangumiItem>> newAdapter = new NormalAdapterWrapper<>(adapter);
         mRecyclerView.setAdapter(adapter);
 
         mNoBangumiView = root.findViewById(R.id.no_bangumi_layout);
