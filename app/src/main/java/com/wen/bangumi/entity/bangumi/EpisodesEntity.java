@@ -38,6 +38,7 @@ public class EpisodesEntity {
         /**
          * 一集的信息
          * id:该章节在Bangumi中对应的ID
+         * episode_id:章节是第几集
          * status:Air, Today, NA
          * status:已放送，正在放送，未放送
          * my_status:status, statusQueue，statusWatched，statusDrop
@@ -48,6 +49,7 @@ public class EpisodesEntity {
          */
 
         private int id;
+        private int episode_id;
         private String status;
         private String my_status;
         private String name;
@@ -60,6 +62,14 @@ public class EpisodesEntity {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public int getEpisode_id() {
+            return episode_id;
+        }
+
+        public void setEpisode_id(int episode_id) {
+            this.episode_id = episode_id;
         }
 
         public String getStatus() {

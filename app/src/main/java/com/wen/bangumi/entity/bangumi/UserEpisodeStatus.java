@@ -8,7 +8,7 @@ import java.util.List;
  * Created by BelieveOP5 on 2017/1/30.
  */
 
-public class EpisodeStatus {
+public class UserEpisodeStatus {
 
     /**
      * subject_id : 147068

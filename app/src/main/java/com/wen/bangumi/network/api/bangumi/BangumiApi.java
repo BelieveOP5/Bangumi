@@ -1,6 +1,7 @@
 package com.wen.bangumi.network.api.bangumi;
 
-import com.wen.bangumi.entity.bangumi.EpisodeStatus;
+import com.wen.bangumi.entity.EpisodeUpdateReply;
+import com.wen.bangumi.entity.bangumi.UserEpisodeStatus;
 import com.wen.bangumi.entity.calendar.DailyCalendar;
 import com.wen.bangumi.entity.user.Token;
 
@@ -47,9 +48,22 @@ public interface BangumiApi {
      * @return
      */
     @GET("user/{user}/progress?source=onAir")
-    Observable<EpisodeStatus> loadEpisodeStatus(@Path("user") int id,
-                                                @Query("subject_id") String subject_id,
-                                                @Query("auth") String auth);
+    Observable<UserEpisodeStatus> loadEpisodeStatus(@Path("user") int id,
+                                                    @Query("subject_id") String subject_id,
+                                                    @Query("auth") String auth);
+
+    /**
+     * 更新每一集的观看状态, 是否要加一个标记之前所有为看过的方法？
+     * @param epId 每一集的id
+     * @param status 观看的状态包括 看过(watched)，想看(queue)，撤销(remove)，抛弃(drop)
+     * @param auth 登录后返回的 auth 字段
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("ep/{epId}/status/{status}?source=onAir")
+    Observable<EpisodeUpdateReply> updateEpisodeStatus(@Path("epId") int epId,
+                                                       @Path("status") String status,
+                                                       @Field("auth") String auth);
 
 
     /**

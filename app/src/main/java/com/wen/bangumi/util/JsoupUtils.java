@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -101,8 +102,27 @@ public class JsoupUtils {
             episode.setStatus(element.select("h6>span.epAirStatus>span").attr("class"));
             // FIXME: 2017/2/2 在该函数中没有初始化章节中的用户状态，因为在网页中无法获取到，所以在该函数调用之后，需要调用api函数来初始化该状态
             episode.setMy_status("status");
-            episode.setName(element.select("h6>a").text());
-            episode.setName_cn(element.select("h6>span.tip").text());
+
+            //将"13.穢れなき世界"分离开来，提取章节编号和标题
+            String title = element.select("h6>a").text();
+            if (!title.isEmpty()) {
+                List<String> strList;
+                strList = Arrays.asList(title.split("\\."));
+                episode.setEpisode_id(Integer.valueOf(strList.get(0)));
+                if (strList.size() == 1) {
+                    episode.setName("");
+                } else {
+                    episode.setName(strList.get(1));
+                }
+            }
+
+            //将" / 复仇"中的" / "去掉，如果为空则不需要
+            String subTitle = element.select("h6>span.tip").text();
+            if (!subTitle.isEmpty()) {
+                subTitle = subTitle.replace("/ ", "");
+            }
+            episode.setName_cn(subTitle);
+
             episode.setInfo(element.select("small.grey").get(0).text());
 
             episodesEntityList.get(k).getEpisodeList().add(episode);

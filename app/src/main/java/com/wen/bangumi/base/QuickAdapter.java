@@ -10,9 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
-import com.wen.bangumi.entity.bangumi.EpisodeStatus;
 
 import java.util.List;
 
@@ -23,10 +21,14 @@ import java.util.List;
 
 public abstract class QuickAdapter<T> extends RecyclerView.Adapter<QuickAdapter.VH> {
 
-    private List<T> mDatas;
+    private List<T> datas;
 
-    private void setDatas(List<T> datas) {
-        this.mDatas = datas;
+    public List<T> getDatas() {
+        return datas;
+    }
+
+    public void setDatas(List<T> datas) {
+        this.datas = datas;
     }
 
     public void replaceData(List<T> datas) {
@@ -34,26 +36,12 @@ public abstract class QuickAdapter<T> extends RecyclerView.Adapter<QuickAdapter.
         notifyDataSetChanged();
     }
 
+    public void replaceData(T data) {
+    }
+
     public QuickAdapter(List<T> datas) {
-        this.mDatas = datas;
+        this.datas = datas;
     }
-
-    /**
-     * 专门为章节RecyclerView提供的接口
-     * --------------------------------------------------------------------
-     */
-
-    public EpisodeStatus getEpisodeStatus() {
-        return null;
-    }
-
-    public void setEpisodeStatus(EpisodeStatus episodeStatus) {}
-
-    public void initEpisodeStatus() {}
-
-    /**
-     * ------------------------------------------------------------------
-     */
 
     /**
      *
@@ -69,12 +57,12 @@ public abstract class QuickAdapter<T> extends RecyclerView.Adapter<QuickAdapter.
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        convert(holder, mDatas.get(position), position);
+        convert(holder, datas.get(position), position);
     }
 
     @Override
     public int getItemCount() {
-        return mDatas.size();
+        return datas.size();
     }
 
     /**

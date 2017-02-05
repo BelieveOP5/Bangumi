@@ -18,22 +18,24 @@ package com.wen.bangumi.module.bangumidetail;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.wen.bangumi.Bangumi;
 import com.wen.bangumi.R;
 import com.wen.bangumi.base.QuickAdapter;
+import com.wen.bangumi.entity.EpisodeUpdateReply;
 import com.wen.bangumi.entity.bangumi.EpisodesEntity;
-import com.wen.bangumi.entity.bangumi.EpisodeStatus;
+import com.wen.bangumi.entity.bangumi.UserEpisodeStatus;
 import com.wen.bangumi.network.RetrofitHelper;
 import com.wen.bangumi.module.user.UserPreferences;
 import com.wen.bangumi.util.JsoupUtils;
@@ -58,12 +60,10 @@ import io.reactivex.schedulers.Schedulers;
 
 public class BangumiDetailActivity extends AppCompatActivity {
 
-    static final String TAG = "BangumiDetailActivity";
-
     @BindView(R.id.bangumi_detail_episode_recycler_view)
     public RecyclerView recyclerView;
 
-    private QuickAdapter<EpisodesEntity.Episode> adapter;
+    public QuickAdapter<EpisodesEntity.Episode> episodeAdapter;
 
     @BindView(R.id.collapsing_toolbar_layout)
     public CollapsingToolbarLayout collapsingToolbarLayout;
@@ -73,6 +73,8 @@ public class BangumiDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.bangumi_total_episode_text_view)
     public TextView textView;
+
+    private BottomSheetDialog dialog;
 
     private int id;
     private String name;
@@ -113,42 +115,7 @@ public class BangumiDetailActivity extends AppCompatActivity {
 
     private void initAdapter() {
 
-        adapter = new QuickAdapter<EpisodesEntity.Episode>(new ArrayList<EpisodesEntity.Episode>()) {
-
-            /**
-             * 用户观看过的章节信息
-             */
-            private EpisodeStatus episodeStatus;
-
-            @Override
-            public EpisodeStatus getEpisodeStatus() {
-                return episodeStatus;
-            }
-
-            @Override
-            public void setEpisodeStatus(EpisodeStatus episodeStatus) {
-                this.episodeStatus = episodeStatus;
-            }
-
-            @Override
-            public void initEpisodeStatus() {
-
-                RetrofitHelper.getBangumiApi()
-                        .loadEpisodeStatus(
-                                UserPreferences.getId(Bangumi.getInstance()),
-                                String.valueOf(id),
-                                UserPreferences.getAuth(Bangumi.getInstance())
-                        )
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<EpisodeStatus>() {
-                            @Override
-                            public void accept(EpisodeStatus episodeStatus) throws Exception {
-                                setEpisodeStatus(episodeStatus);
-                            }
-                        });
-
-            }
+        episodeAdapter = new QuickAdapter<EpisodesEntity.Episode>(new ArrayList<EpisodesEntity.Episode>()) {
 
             @Override
             public int getLayoutId(int viewType) {
@@ -156,8 +123,8 @@ public class BangumiDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void convert(VH holder, final EpisodesEntity.Episode data, int position) {
-                holder.setBtnText(R.id.btn, String.valueOf(position + 1));
+            public void convert(final VH holder, final EpisodesEntity.Episode data, int position) {
+                holder.setBtnText(R.id.btn, String.valueOf(data.getEpisode_id()));
 
                 Button btn = holder.getView(R.id.btn);
                 Resources res = holder.itemView.getResources();
@@ -182,15 +149,23 @@ public class BangumiDetailActivity extends AppCompatActivity {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Toast.makeText(
-                                        Bangumi.getInstance(),
-                                        data.getName_cn().isEmpty() ? data.getName() : data.getName_cn(),
-                                        Toast.LENGTH_SHORT
-                                ).show();
+                                initDialog(data);
                             }
                         }
                 );
             }
+
+            @Override
+            public void replaceData(EpisodesEntity.Episode episode) {
+                for (int i = 0; i <= getDatas().size(); ++i) {
+                    if (getDatas().get(i).getId() == episode.getId()) {
+                        getDatas().set(i, episode);
+                        notifyItemChanged(i);
+                        return;
+                    }
+                }
+            }
+
         };
 
     }
@@ -206,9 +181,9 @@ public class BangumiDetailActivity extends AppCompatActivity {
                                 List<EpisodesEntity> episodesEntities = JsoupUtils.parseBangumiEpi(s);
                                 if (episodesEntities == null) {
                                     // TODO: 2017/2/4 调用显示还没有章节
-                                    return new ArrayList<EpisodesEntity>();
+                                    return new ArrayList<>();
                                 }
-                                return JsoupUtils.parseBangumiEpi(s);
+                                return episodesEntities;
                             }
                         }
                 )
@@ -219,53 +194,44 @@ public class BangumiDetailActivity extends AppCompatActivity {
                         String.valueOf(id),
                         UserPreferences.getAuth(Bangumi.getInstance())
                 ).map(
-                        new Function<EpisodeStatus, EpisodeStatus>() {
+                        new Function<UserEpisodeStatus, UserEpisodeStatus>() {
                             /**
                              * 确保episodeStatus至少有一个，如果episodeStatus为空，则zip中的BiFunction则不会执行，也不会进入onNext中
                              * 因为zip返回的数量是两个Observable中数量更少的一个
-                             * @param episodeStatus
+                             * @param userEpisodeStatus
                              * @return
                              * @throws Exception
                              */
                             @Override
-                            public EpisodeStatus apply(EpisodeStatus episodeStatus) throws Exception {
-                                if (episodeStatus == null)
-                                    return new EpisodeStatus();
-                                return episodeStatus;
+                            public UserEpisodeStatus apply(UserEpisodeStatus userEpisodeStatus) throws Exception {
+                                if (userEpisodeStatus == null)
+                                    return new UserEpisodeStatus();
+                                return userEpisodeStatus;
                             }
                         }
                 ),
-                new BiFunction<List<EpisodesEntity>, EpisodeStatus, List<EpisodesEntity>>() {
+                new BiFunction<List<EpisodesEntity>, UserEpisodeStatus, List<EpisodesEntity>>() {
                     /**
                      * 将自己构造好的章节实体和从api中获取的用户已看的章节结合，形成完整的章节实体
-                     * @param episodesEntities
-                     * @param episodeStatus
-                     * @return
+                     * @param episodesEntities 从网页解析出来的所有章节
+                     * @param userEpisodeStatus api获取的用户观看或抛弃的章节
+                     * @return 整合后的所有章节状态
                      * @throws Exception
                      */
                     @Override
-                    public List<EpisodesEntity> apply(List<EpisodesEntity> episodesEntities, EpisodeStatus episodeStatus) throws Exception {
+                    public List<EpisodesEntity> apply(List<EpisodesEntity> episodesEntities, UserEpisodeStatus userEpisodeStatus) throws Exception {
 
                         //用户还一个章节都没看过,或者这个动漫还没有章节
-                        if (episodeStatus.getSubject_id() == 0 || episodesEntities.size() == 0)
+                        if (userEpisodeStatus.getSubject_id() == 0 || episodesEntities.size() == 0)
                             return episodesEntities;
 
-                        // FIXME: 2017/2/2 可以在另一个地方进行这样的处理，就是在界面需要显示的时候对按钮一个一个映射，放在这里循环数太多，当处理海贼王这样的数据的时候会很慢
+                        // FIXME: 2017/2/2 当数据量大时，处理太慢
                         for (EpisodesEntity episodesEntity : episodesEntities) {
-
                             List<EpisodesEntity.Episode>  episodeList = episodesEntity.getEpisodeList();
                             for (EpisodesEntity.Episode episode : episodeList) {
-
-                                for (EpisodeStatus.EpsBean epsBean : episodeStatus.getEps()) {
+                                for (UserEpisodeStatus.EpsBean epsBean : userEpisodeStatus.getEps()) {
                                     if (episode.getId() == epsBean.getId()) {
-                                        switch (epsBean.getStatus().getUrl_name()) {
-                                            case "watched":
-                                                episode.setMy_status("statusWatched");
-                                                break;
-                                            case "drop":
-                                                episode.setMy_status("statusDrop");
-                                                break;
-                                        }
+                                        episode.setMy_status(EpisodeStatus.getStatusMap().get(epsBean.getStatus().getUrl_name()));
                                         break;
                                     }
                                 }
@@ -312,9 +278,119 @@ public class BangumiDetailActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 6));
 
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(episodeAdapter);
 
-        adapter.replaceData(episodesEntities.get(0).getEpisodeList());
+        episodeAdapter.replaceData(episodesEntities.get(0).getEpisodeList());
+
+    }
+
+    /**
+     * 更新该章节的状态
+     * @param episode 要修改的章节
+     * @param status 要修改的状态
+     */
+    public void updateEpisodeStatus(final EpisodesEntity.Episode episode, final String status) {
+
+        RetrofitHelper.getBangumiApi()
+                .updateEpisodeStatus(
+                        episode.getId(),
+                        status,
+                        UserPreferences.getAuth(Bangumi.getInstance())
+                )
+                .doOnSubscribe(
+                        new Consumer<Disposable>() {
+                            @Override
+                            public void accept(Disposable disposable) throws Exception {
+
+                            }
+                        }
+                )
+                .doOnComplete(
+                        new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                episodeAdapter.replaceData(episode);
+                                dialog.dismiss();
+                            }
+                        }
+                )
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        new Consumer<EpisodeUpdateReply>() {
+                            @Override
+                            public void accept(EpisodeUpdateReply episodeUpdateReply) throws Exception {
+                                // TODO: 2017/2/5 检查返回信息
+                            }
+                        },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+
+                            }
+                        },
+                        new Action() {
+                            @Override
+                            public void run() throws Exception {
+                                episode.setMy_status(EpisodeStatus.getStatusMap().get(status));
+                            }
+                        }
+                );
+
+    }
+
+    public void initDialog(final EpisodesEntity.Episode episode) {
+
+        dialog = new BottomSheetDialog(this);
+
+        View view = LayoutInflater.from(this).inflate(R.layout.bangumi_detail_episode_bottom_sheet, null, false);
+
+        TextView titleTextView = (TextView) view.findViewById(R.id.episode_title_text_view);
+        titleTextView.setText(episode.getName());
+
+        TextView subTitleTextView = (TextView) view.findViewById(R.id.episode_subtitle_text_view);
+        subTitleTextView.setText(episode.getName_cn());
+
+        TextView infoTextView = (TextView) view.findViewById(R.id.episode_info_text_view);
+        infoTextView.setText(episode.getInfo());
+
+        final QuickAdapter<String> episodeBottomSheetAdapter = new QuickAdapter<String>(new ArrayList<String>()) {
+            @Override
+            public int getLayoutId(int viewType) {
+                return R.layout.bangumi_detail_episode_bottom_sheet_recycler_view_item;
+            }
+
+            @Override
+            public void convert(VH holder, final String data, int position) {
+
+                holder.setBtnText(R.id.btn, EpisodeStatus.getActionMap().get(data));
+
+                holder.getView(R.id.btn).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                updateEpisodeStatus(episode, data);
+                            }
+                        }
+                );
+            }
+        };
+
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
+        recyclerView.setAdapter(episodeBottomSheetAdapter);
+
+        List<String> stringList = new ArrayList<>();
+        stringList.add("queue");
+        stringList.add("watched");
+        stringList.add("drop");
+        stringList.add("remove");
+
+        episodeBottomSheetAdapter.replaceData(stringList);
+
+        dialog.setContentView(view);
+
+        dialog.show();
 
     }
 
