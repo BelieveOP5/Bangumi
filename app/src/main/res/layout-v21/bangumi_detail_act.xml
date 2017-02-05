@@ -62,14 +62,24 @@
                     android:text="@string/select_episode"/>
 
                 <TextView
-                    android:id="@+id/bangumi_total_episode_text_view"
+                    android:id="@+id/episode_arrow_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:drawableEnd="@drawable/arrow_right"
                     android:drawablePadding="5dp"
+                    android:text="@string/episode_total"
                     android:textSize="12sp"/>
+
+                <TextView
+                    android:id="@+id/bangumi_total_episode_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/episode_arrow_text_view"
+                    android:layout_marginEnd="5dp"
+                    android:textSize="12sp" />
 
             </RelativeLayout>
 
