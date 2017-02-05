@@ -25,6 +25,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -69,6 +70,9 @@ public class BangumiDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.image_view)
     public ImageView imageView;
+
+    @BindView(R.id.bangumi_total_episode_text_view)
+    public TextView textView;
 
     private int id;
     private String name;
@@ -180,7 +184,7 @@ public class BangumiDetailActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 Toast.makeText(
                                         Bangumi.getInstance(),
-                                        data.getName_cn() == null ? data.getName() : data.getName_cn(),
+                                        data.getName_cn().isEmpty() ? data.getName() : data.getName_cn(),
                                         Toast.LENGTH_SHORT
                                 ).show();
                             }
@@ -191,12 +195,7 @@ public class BangumiDetailActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    public void loadData() {
+    private void loadData() {
 
         Observable.zip(
                 //基于html获取的章节信息
@@ -308,6 +307,8 @@ public class BangumiDetailActivity extends AppCompatActivity {
     }
 
     private void finishTask(List<EpisodesEntity> episodesEntities) {
+
+        textView.setText(String.valueOf(episodesEntities.get(0).getEpisodeList().size()));
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 6));
 
