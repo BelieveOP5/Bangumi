@@ -20,8 +20,8 @@ public class NormalAdapterWrapper<T extends QuickAdapter> extends RecyclerView.A
     private View mHeaderView;
     private View mFooterView;
 
-    public NormalAdapterWrapper(T adpter) {
-        this.mAdapter = adpter;
+    public NormalAdapterWrapper(T adapter) {
+        this.mAdapter = adapter;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class NormalAdapterWrapper<T extends QuickAdapter> extends RecyclerView.A
         } else if (position == mAdapter.getItemCount() + 1) {
             return;
         } else {
-            mAdapter.onBindViewHolder(holder, position);
+            mAdapter.onBindViewHolder(holder, position - 1);
         }
     }
 

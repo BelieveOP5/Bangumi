@@ -39,6 +39,7 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
 
     private RecyclerView mRecyclerView;
     private QuickAdapter<BangumiItem> adapter;
+    NormalAdapterWrapper<QuickAdapter<BangumiItem>> newAdapter;
 
     private SingleCollContract.Presenter mPresenter;
 
@@ -115,8 +116,15 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
         mRecyclerView = (RecyclerView) root.findViewById(R.id.bangumi_list);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
-        NormalAdapterWrapper<QuickAdapter<BangumiItem>> newAdapter = new NormalAdapterWrapper<>(adapter);
-        mRecyclerView.setAdapter(adapter);
+        newAdapter = new NormalAdapterWrapper<>(adapter);
+
+        View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.single_collection_header_view, null, false);
+        View footerView = LayoutInflater.from(getActivity()).inflate(R.layout.single_collection_footer_view, null, false);
+
+        newAdapter.addHeaderView(headerView);
+        newAdapter.addFooterView(footerView);
+
+        mRecyclerView.setAdapter(newAdapter);
 
         mNoBangumiView = root.findViewById(R.id.no_bangumi_layout);
         TextView textView = (TextView) root.findViewById(R.id.no_bangumi_text);
@@ -189,6 +197,7 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
     @Override
     public void showCollBangumi(List<BangumiItem> mBangumiItemList) {
         adapter.replaceData(mBangumiItemList);
+        newAdapter.notifyDataSetChanged();
 
         showBangumiView();
     }
