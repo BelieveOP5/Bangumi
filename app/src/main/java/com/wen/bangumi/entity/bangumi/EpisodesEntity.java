@@ -47,18 +47,18 @@ public class EpisodesEntity {
          * info 该集的时长和上映时间
          */
 
-        private long id;
+        private int id;
         private String status;
         private String my_status;
         private String name;
         private String name_cn;
         private String info;
 
-        public long getId() {
+        public int getId() {
             return id;
         }
 
-        public void setId(long id) {
+        public void setId(int id) {
             this.id = id;
         }
 

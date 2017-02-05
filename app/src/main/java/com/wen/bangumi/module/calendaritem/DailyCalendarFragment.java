@@ -1,19 +1,25 @@
 package com.wen.bangumi.module.calendaritem;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.wen.bangumi.base.BaseLazyFragment;
+import com.wen.bangumi.base.QuickAdapter;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.R;
+import com.wen.bangumi.module.bangumidetail.BangumiDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +44,7 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
     private DailyCalendarContract.Presenter mPresenter;
 
     private RecyclerView mRecyclerView;
-    private RecyclerViewAdapter mRecyclerViewAdapter;
+    private QuickAdapter<BangumiItem> adapter;
 
     private View mNoBangumiView;
 
@@ -59,9 +65,45 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initAdapter();
+    }
 
-        //初始化当前RecyclerView对应的Adapter
-        mRecyclerViewAdapter = new RecyclerViewAdapter(new ArrayList<BangumiItem>(), getActivity());
+    @Override
+    protected void initAdapter() {
+
+        adapter = new QuickAdapter<BangumiItem>(new ArrayList<BangumiItem>()) {
+            @Override
+            public int getLayoutId(int viewType) {
+                return R.layout.dailycalendar_item;
+            }
+
+            @Override
+            public void convert(final VH holder, final BangumiItem data, int position) {
+                holder.setText(R.id.item_title, data.getName_cn());
+                holder.setImage(R.id.item_image, data.getLarge_image());
+
+                holder.itemView.setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(getActivity(), BangumiDetailActivity.class);
+                                intent.putExtra("Bangumi_id", data.getBangumi_id());
+                                intent.putExtra("Name_cn", data.getName_cn());
+                                intent.putExtra("Large_image", data.getLarge_image());
+                                startActivity(
+                                        intent,
+                                        ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                                getActivity(),
+                                                holder.getView(R.id.item_image),
+                                                "image_view"
+                                        ).toBundle()
+                                );
+                            }
+                        }
+                );
+            }
+        };
+
     }
 
     /**
@@ -80,7 +122,7 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
 
         mRecyclerView = (RecyclerView) root.findViewById(R.id.bangumiList);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        mRecyclerView.setAdapter(mRecyclerViewAdapter);
+        mRecyclerView.setAdapter(adapter);
 
         mNoBangumiView =  root.findViewById(R.id.noBangumi);
 
@@ -141,7 +183,7 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
      */
     @Override
     public void showDailyCalendar(List<BangumiItem> mBangumiItemList) {
-        mRecyclerViewAdapter.replaceData(mBangumiItemList);
+        adapter.replaceData(mBangumiItemList);
         showBangumiView();
     }
 

@@ -62,6 +62,8 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        initAdapter();
     }
 
     @Override
@@ -99,15 +101,6 @@ public class SingleCollFragment extends BaseLazyFragment implements SingleCollCo
                             }
                         }
                 );
-            }
-
-            @Override
-            public void replaceData(List<BangumiItem> mBangumiItemList) {
-                setDatas(mBangumiItemList);
-                /**
-                 * 提醒observers中数据已经发生了改变，相应的RecyclerView需要发生改变
-                 */
-                notifyDataSetChanged();
             }
 
         };

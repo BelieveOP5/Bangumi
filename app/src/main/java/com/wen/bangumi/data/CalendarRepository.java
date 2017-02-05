@@ -88,28 +88,12 @@ public class CalendarRepository implements CalendarInterface {
             return mCache;
         }
 
-//        return RetrofitHelper.getBangumiApi()
-//                .listCalendar()
-//                .map(new Function<List<DailyCalendar>, List<BangumiItem>>() {
-//                    @Override
-//                    public List<BangumiItem> apply(List<DailyCalendar> calendarList) throws Exception {
-//                        return saveBangumi(calendarList, weekday);
-//                    }
-//                })
-//                //完成了之后
-//                .doOnComplete(new Action() {
-//                    @Override
-//                    public void run() throws Exception {
-//                        mCacheIsDirty = false;
-//                    }
-//                });
-
-        return RetrofitHelper.getBiliBiliApi()
+        return RetrofitHelper.getBangumiApi()
                 .listCalendar()
-                .map(new Function<TimeLine_BiliBili, List<BangumiItem>>() {
+                .map(new Function<List<DailyCalendar>, List<BangumiItem>>() {
                     @Override
-                    public List<BangumiItem> apply(TimeLine_BiliBili timeLine_biliBili) throws Exception {
-                        return saveBiliBiliBangumi(timeLine_biliBili, weekday);
+                    public List<BangumiItem> apply(List<DailyCalendar> calendarList) throws Exception {
+                        return saveBangumi(calendarList, weekday);
                     }
                 })
                 //完成了之后
@@ -119,6 +103,22 @@ public class CalendarRepository implements CalendarInterface {
                         mCacheIsDirty = false;
                     }
                 });
+
+//        return RetrofitHelper.getBiliBiliApi()
+//                .listCalendar()
+//                .map(new Function<TimeLine_BiliBili, List<BangumiItem>>() {
+//                    @Override
+//                    public List<BangumiItem> apply(TimeLine_BiliBili timeLine_biliBili) throws Exception {
+//                        return saveBiliBiliBangumi(timeLine_biliBili, weekday);
+//                    }
+//                })
+//                //完成了之后
+//                .doOnComplete(new Action() {
+//                    @Override
+//                    public void run() throws Exception {
+//                        mCacheIsDirty = false;
+//                    }
+//                });
 
     }
 
@@ -141,7 +141,7 @@ public class CalendarRepository implements CalendarInterface {
                 BangumiItem entity = new BangumiItem();
 
                 entity.setBangumi_id(item.getId());
-                entity.setAir_weekday(item.getAir_weekday());
+                entity.setAir_weekday(item.getAir_weekday() - 1);
 
                 if (item.getName_cn() != null)
                     entity.setName_cn(item.getName_cn());
@@ -154,7 +154,7 @@ public class CalendarRepository implements CalendarInterface {
 
                 //不能用上面这个比较方法，一使用就报错，原因不明
 //                if (entity.getAir_weekday() == weekday)
-                if (item.getAir_weekday() == weekday.ordinal())
+                if ((item.getAir_weekday() - 1) == weekday.ordinal())
                     _dbList.add(entity);
             }
         }

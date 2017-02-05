@@ -97,7 +97,7 @@ public class JsoupUtils {
 
             EpisodesEntity.Episode episode = new EpisodesEntity.Episode();
 
-            episode.setId(Long.valueOf(element.select("h6>a").attr("href").replace("/ep/", "")));
+            episode.setId(Integer.valueOf(element.select("h6>a").attr("href").replace("/ep/", "")));
             episode.setStatus(element.select("h6>span.epAirStatus>span").attr("class"));
             // FIXME: 2017/2/2 在该函数中没有初始化章节中的用户状态，因为在网页中无法获取到，所以在该函数调用之后，需要调用api函数来初始化该状态
             episode.setMy_status("status");

@@ -1,6 +1,6 @@
 package com.wen.bangumi.network.api.bangumi;
 
-import com.wen.bangumi.entity.bangumi.MyEpisodeStatus;
+import com.wen.bangumi.entity.bangumi.EpisodeStatus;
 import com.wen.bangumi.entity.calendar.DailyCalendar;
 import com.wen.bangumi.entity.user.Token;
 
@@ -47,9 +47,9 @@ public interface BangumiApi {
      * @return
      */
     @GET("user/{user}/progress?source=onAir")
-    Observable<MyEpisodeStatus> loadMyEpisodeStatus(@Path("user") int id,
-                                                    @Query("subject_id") String subject_id,
-                                                    @Query("auth") String auth);
+    Observable<EpisodeStatus> loadEpisodeStatus(@Path("user") int id,
+                                                @Query("subject_id") String subject_id,
+                                                @Query("auth") String auth);
 
 
     /**

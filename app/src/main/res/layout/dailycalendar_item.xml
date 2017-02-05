@@ -9,7 +9,7 @@
     
     <ImageView
         android:id="@+id/item_image"
-        android:layout_width="@dimen/calendar_img_width"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:scaleType="fitXY"
@@ -18,7 +18,7 @@
     
     <TextView
         android:id="@+id/item_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="13sp"
         android:layout_gravity="center|bottom"
