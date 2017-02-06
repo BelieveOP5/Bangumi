@@ -8,8 +8,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +72,7 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
         adapter = new QuickAdapter<BangumiItem>(new ArrayList<BangumiItem>()) {
             @Override
             public int getLayoutId(int viewType) {
-                return R.layout.dailycalendar_item;
+                return R.layout.daily_calendar_item;
             }
 
             @Override
@@ -118,7 +116,7 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.dailycalendar_frag, container, false);
+        View root = inflater.inflate(R.layout.daily_calendar_frag, container, false);
 
         mRecyclerView = (RecyclerView) root.findViewById(R.id.bangumiList);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));

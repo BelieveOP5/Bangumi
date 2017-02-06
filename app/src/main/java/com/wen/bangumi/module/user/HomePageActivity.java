@@ -27,7 +27,7 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.coll_act);
+        setContentView(R.layout.collection_act);
 
         setupToolbar();
 
@@ -73,6 +73,9 @@ public class HomePageActivity extends AppCompatActivity {
             public void run() {
                 mViewPager.setAdapter(viewPagerAdapter);
                 mTabLayout.setupWithViewPager(mViewPager);
+
+                //设置初始界面为在看的界面
+                mViewPager.setCurrentItem(1);
             }
         });
 
