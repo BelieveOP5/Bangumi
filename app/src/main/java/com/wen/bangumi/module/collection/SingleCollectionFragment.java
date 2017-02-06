@@ -71,13 +71,6 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        initAdapter();
-    }
-
-    @Override
     protected void initAdapter() {
 
         /**

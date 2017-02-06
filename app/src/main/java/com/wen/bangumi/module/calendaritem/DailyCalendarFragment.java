@@ -63,12 +63,6 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initAdapter();
-    }
-
-    @Override
     protected void initAdapter() {
 
         adapter = new QuickAdapter<BangumiItem>(new ArrayList<BangumiItem>()) {

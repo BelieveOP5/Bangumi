@@ -1,5 +1,7 @@
 package com.wen.bangumi.base;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 
@@ -17,6 +19,12 @@ public class BaseLazyFragment extends Fragment {
 
     //标志位 fragment是否可见
     protected boolean isVisible;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initAdapter();
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

@@ -42,6 +42,8 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -52,12 +54,19 @@ public class MainActivity extends AppCompatActivity {
 
     public static MainActivity mActivity;
 
-    private DrawerLayout mDrawerLayout;
+    @BindView(R.id.drawer_layout)
+    public DrawerLayout mDrawerLayout;
 
-    private View navHeaderView;
+    @BindView(R.id.nav_view)
+    public NavigationView mNavigationView;
 
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
+    public View navHeaderView;
+
+    @BindView(R.id.tablayout)
+    public TabLayout mTabLayout;
+
+    @BindView(R.id.viewpager)
+    public ViewPager mViewPager;
 
     private DaoSession mDaoSession;
 
@@ -65,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.calendar_act);
+
+        ButterKnife.bind(this);
 
         mActivity = this;
 
@@ -77,10 +88,6 @@ public class MainActivity extends AppCompatActivity {
 
         setupToolbar();
 
-        mTabLayout = (TabLayout) findViewById(R.id.tablayout);
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         if (mNavigationView != null) {
             setupDrawerContent(mNavigationView);
         }
@@ -205,7 +212,6 @@ public class MainActivity extends AppCompatActivity {
             );
         }
 
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mViewPager.post(new Runnable() {
             @Override
             public void run() {
