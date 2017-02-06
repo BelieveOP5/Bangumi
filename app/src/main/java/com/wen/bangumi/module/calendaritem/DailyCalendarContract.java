@@ -21,7 +21,9 @@ public interface DailyCalendarContract {
          */
         void showDailyCalendar(List<BangumiItem> mBangumiItemList);
 
-
+        /**
+         * 显示当日的番剧
+         */
         void showBangumiView();
 
         /**

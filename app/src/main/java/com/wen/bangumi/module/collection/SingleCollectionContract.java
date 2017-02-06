@@ -18,10 +18,15 @@ public interface SingleCollectionContract {
          * 显示番剧
          * @param mBangumiItemList 番剧列表
          */
-        void showCollBangumi(List<BangumiItem> mBangumiItemList);
+        void showBangumiCollection(List<BangumiItem> mBangumiItemList);
 
         /**
-         * 没有番剧可以获取
+         * 显示番剧视图
+         */
+        void showBangumiView();
+
+        /**
+         * 显示没有番剧的视图
          */
         void showNoBangumiView();
 

@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,25 +35,27 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class SingleCollectionFragment extends BaseLazyFragment implements SingleCollectionContract.View{
 
+    //这个fragment代表的状态
     private BangumiStatus status;
 
     public void setStatus(BangumiStatus status) {
         this.status = status;
     }
 
+    @BindView(R.id.bangumi_list)
+    public RecyclerView recyclerView;
+
+    @BindView(R.id.no_bangumi_layout)
+    public View noBangumiView;
+
     /**
      * adapter是普通的adapter
      * 而newAdapter是带有header和footer的adapter
      */
-    @BindView(R.id.bangumi_list)
-    public RecyclerView mRecyclerView;
-
     private QuickAdapter<BangumiItem> adapter;
     NormalAdapterWrapper<QuickAdapter<BangumiItem>> newAdapter;
 
     private SingleCollectionContract.Presenter mPresenter;
-
-    private View mNoBangumiView;
 
     public static SingleCollectionFragment newInstance(BangumiStatus status) {
         Bundle args = new Bundle();
@@ -80,6 +80,9 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
     @Override
     protected void initAdapter() {
 
+        /**
+         * 初始化recyclerView的adapter
+         */
         adapter = new QuickAdapter<BangumiItem>(new ArrayList<BangumiItem>()) {
 
             @Override
@@ -113,8 +116,15 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
                         }
                 );
             }
-
         };
+
+        newAdapter = new NormalAdapterWrapper<>(adapter);
+
+        View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.single_collection_header_view, null, false);
+        View footerView = LayoutInflater.from(getActivity()).inflate(R.layout.single_collection_footer_view, null, false);
+
+        newAdapter.addHeaderView(headerView);
+        newAdapter.addFooterView(footerView);
 
     }
 
@@ -123,14 +133,15 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         View root = inflater.inflate(R.layout.single_collection_frag, container, false);
 
         ButterKnife.bind(this, root);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-        mRecyclerView.addOnScrollListener(
+        recyclerView.addOnScrollListener(
                 new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -150,17 +161,8 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
                 }
         );
 
-        newAdapter = new NormalAdapterWrapper<>(adapter);
+        recyclerView.setAdapter(newAdapter);
 
-        View headerView = LayoutInflater.from(getActivity()).inflate(R.layout.single_collection_header_view, null, false);
-        View footerView = LayoutInflater.from(getActivity()).inflate(R.layout.single_collection_footer_view, null, false);
-
-        newAdapter.addHeaderView(headerView);
-        newAdapter.addFooterView(footerView);
-
-        mRecyclerView.setAdapter(newAdapter);
-
-        mNoBangumiView = root.findViewById(R.id.no_bangumi_layout);
         TextView textView = (TextView) root.findViewById(R.id.no_bangumi_text);
 
         switch (status) {
@@ -192,11 +194,12 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        // TODO: 2017/1/28
+                        mPresenter.loadBangumi(status, true);
                     }
                 }
         );
 
+        //视图已经初始化完成
         isPrepared = true;
         return root;
     }
@@ -224,30 +227,24 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
         mPresenter.unsubscribe();
     }
 
-    /**
-     * 显示某日的番剧
-     * @param mBangumiItemList 当日的番剧列表
-     */
     @Override
-    public void showCollBangumi(List<BangumiItem> mBangumiItemList) {
+    public void showBangumiCollection(List<BangumiItem> mBangumiItemList) {
         adapter.replaceData(mBangumiItemList);
         newAdapter.notifyDataSetChanged();
 
         showBangumiView();
     }
 
+    @Override
     public void showBangumiView() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mNoBangumiView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        noBangumiView.setVisibility(View.GONE);
     }
 
-    /**
-     * 当日没有番剧可以获取
-     */
     @Override
     public void showNoBangumiView() {
-        mRecyclerView.setVisibility(View.INVISIBLE);
-        mNoBangumiView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+        noBangumiView.setVisibility(View.VISIBLE);
     }
 
     @Override

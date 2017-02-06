@@ -1,6 +1,7 @@
 package com.wen.bangumi.network.api.bangumi;
 
 import com.wen.bangumi.entity.EpisodeUpdateReply;
+import com.wen.bangumi.entity.bangumi.SingleBangumiItem;
 import com.wen.bangumi.entity.bangumi.UserEpisodeStatus;
 import com.wen.bangumi.entity.calendar.DailyCalendar;
 import com.wen.bangumi.entity.user.Token;
@@ -22,7 +23,7 @@ import retrofit2.http.Query;
 public interface BangumiApi {
 
     /**
-     *  获取每日放送的番剧
+     * 获取每日放送的番剧
      * @return
      */
     @GET("calendar")
@@ -38,6 +39,14 @@ public interface BangumiApi {
     @POST("auth?source=onAir")
     Observable<Token> login(@Field("username") String username,
                             @Field("password") String password);
+
+    /**
+     * 获取一个番剧的基本信息
+     * @param id 番剧的id
+     * @return
+     */
+    @GET("subject/{id}")
+    Observable<SingleBangumiItem> getSubject(@Path("id") String id);
 
 
     /**

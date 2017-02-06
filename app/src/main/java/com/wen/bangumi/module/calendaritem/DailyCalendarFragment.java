@@ -22,6 +22,9 @@ import com.wen.bangumi.module.bangumidetail.BangumiDetailActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -29,9 +32,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 
 public class DailyCalendarFragment extends BaseLazyFragment implements DailyCalendarContract.View{
-
-    @NonNull
-    static final String TAG = "DailyCalendarFragment";
 
     private WeekDay weekday;
 
@@ -41,10 +41,13 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
 
     private DailyCalendarContract.Presenter mPresenter;
 
-    private RecyclerView mRecyclerView;
-    private QuickAdapter<BangumiItem> adapter;
+    @BindView(R.id.bangumiList)
+    public RecyclerView recyclerView;
 
-    private View mNoBangumiView;
+    @BindView(R.id.noBangumi)
+    public View noBangumiView;
+
+    private QuickAdapter<BangumiItem> adapter;
 
     /**
      * 实例化一个DailyCalendarFragment，并返回
@@ -52,7 +55,6 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
      * @return
      */
     public static DailyCalendarFragment newInstance(WeekDay date) {
-
         Bundle args = new Bundle();
         DailyCalendarFragment fragment = new DailyCalendarFragment();
         fragment.setDate(date);
@@ -118,11 +120,10 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.daily_calendar_frag, container, false);
 
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.bangumiList);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        mRecyclerView.setAdapter(adapter);
+        ButterKnife.bind(this, root);
 
-        mNoBangumiView =  root.findViewById(R.id.noBangumi);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        recyclerView.setAdapter(adapter);
 
         showBangumiView();
 
@@ -187,8 +188,8 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
 
     @Override
     public void showBangumiView() {
-        mRecyclerView.setVisibility(View.VISIBLE);
-        mNoBangumiView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+        noBangumiView.setVisibility(View.GONE);
     }
 
     /**
@@ -196,8 +197,8 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
      */
     @Override
     public void showNoBangumiView() {
-        mRecyclerView.setVisibility(View.INVISIBLE);
-        mNoBangumiView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+        noBangumiView.setVisibility(View.VISIBLE);
     }
 
     @Override

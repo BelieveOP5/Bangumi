@@ -22,7 +22,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class SingleCollectionPresent implements SingleCollectionContract.Presenter {
 
-    private SingleCollectionContract.View mSingleCollView;
+    @NonNull
+    private SingleCollectionContract.View mSingleCollectionView;
 
     @NonNull
     private final CollectionRepository mCollectionRepository;
@@ -37,10 +38,10 @@ public class SingleCollectionPresent implements SingleCollectionContract.Present
     public SingleCollectionPresent(@NonNull CollectionRepository collectionRepository,
                                    @NonNull SingleCollectionContract.View view) {
         mCollectionRepository = checkNotNull(collectionRepository, "CollectionRepository cannot be null!");
-        mSingleCollView = checkNotNull(view, "SingleCollView cannot be null!");
+        mSingleCollectionView = checkNotNull(view, "SingleCollectionView cannot be null!");
 
         mCompositeDisposable = new CompositeDisposable();
-        mSingleCollView.setPresenter(this);
+        mSingleCollectionView.setPresenter(this);
     }
 
     @Override
@@ -73,7 +74,7 @@ public class SingleCollectionPresent implements SingleCollectionContract.Present
 
         if (forceUpdate) {
             mCollectionRepository.refreshBangumi();
-            mSingleCollView.setLoadingIndicator(true);
+            mSingleCollectionView.setLoadingIndicator(true);
         }
 
         mCompositeDisposable.clear();
@@ -94,14 +95,14 @@ public class SingleCollectionPresent implements SingleCollectionContract.Present
                             @Override
                             public void accept(Throwable throwable) throws Exception {
                                 //onError
-                                mSingleCollView.showLoadingBangumiError();
+                                mSingleCollectionView.showLoadingBangumiError();
                             }
                         },
                         new Action() {
                             @Override
                             public void run() throws Exception {
                                 //onCompleted
-                                mSingleCollView.setLoadingIndicator(false);
+                                mSingleCollectionView.setLoadingIndicator(false);
                             }
                         }
                 );
@@ -112,9 +113,9 @@ public class SingleCollectionPresent implements SingleCollectionContract.Present
     private void processBangumi(@NonNull List<BangumiItem> mList) {
         if (mList.isEmpty())
             //没有番剧可以获取
-            mSingleCollView.showNoBangumiView();
+            mSingleCollectionView.showNoBangumiView();
         else
-            mSingleCollView.showCollBangumi(mList);
+            mSingleCollectionView.showBangumiCollection(mList);
     }
 
 }
