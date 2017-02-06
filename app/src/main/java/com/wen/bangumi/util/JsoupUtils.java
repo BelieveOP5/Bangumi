@@ -105,7 +105,7 @@ public class JsoupUtils {
 
             //将"13.穢れなき世界"分离开来，提取章节编号和标题
             String title = element.select("h6>a").text();
-            if (!title.isEmpty()) {
+            if (k == 0 && !title.isEmpty()) {
                 List<String> strList;
                 strList = Arrays.asList(title.split("\\."));
                 episode.setEpisode_id(Integer.valueOf(strList.get(0)));
@@ -119,7 +119,7 @@ public class JsoupUtils {
             //将" / 复仇"中的" / "去掉，如果为空则不需要
             String subTitle = element.select("h6>span.tip").text();
             if (!subTitle.isEmpty()) {
-                subTitle = subTitle.replace("/ ", "");
+                subTitle = subTitle.substring(2);
             }
             episode.setName_cn(subTitle);
 

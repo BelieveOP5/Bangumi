@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +21,13 @@ import com.wen.bangumi.base.NormalAdapterWrapper;
 import com.wen.bangumi.base.QuickAdapter;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.module.bangumidetail.BangumiDetailActivity;
+import com.wen.bangumi.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -37,7 +43,13 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
         this.status = status;
     }
 
-    private RecyclerView mRecyclerView;
+    /**
+     * adapter是普通的adapter
+     * 而newAdapter是带有header和footer的adapter
+     */
+    @BindView(R.id.bangumi_list)
+    public RecyclerView mRecyclerView;
+
     private QuickAdapter<BangumiItem> adapter;
     NormalAdapterWrapper<QuickAdapter<BangumiItem>> newAdapter;
 
@@ -113,8 +125,30 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.single_collection_frag, container, false);
 
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.bangumi_list);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        ButterKnife.bind(this, root);
+
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
+        mRecyclerView.addOnScrollListener(
+                new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                    }
+
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                        int totalItemCount = linearLayoutManager.getItemCount();
+
+                        if (dy > 0 && lastVisibleItem == totalItemCount - 1) {
+                            ToastUtils.showToast(getContext(), "你拉到最底了！！！");
+                        }
+
+                    }
+                }
+        );
 
         newAdapter = new NormalAdapterWrapper<>(adapter);
 
