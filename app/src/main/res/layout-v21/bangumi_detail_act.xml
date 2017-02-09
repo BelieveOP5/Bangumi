@@ -2,7 +2,6 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -49,45 +48,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:textSize="14sp"
-                    android:text="@string/select_episode"/>
-
-                <TextView
-                    android:id="@+id/episode_arrow_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:drawableEnd="@drawable/arrow_right"
-                    android:drawablePadding="5dp"
-                    android:text="@string/episode_total"
-                    android:textSize="12sp"/>
-
-                <TextView
-                    android:id="@+id/bangumi_total_episode_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@id/episode_arrow_text_view"
-                    android:layout_marginEnd="5dp"
-                    android:textSize="12sp" />
-
-            </RelativeLayout>
-
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/bangumi_detail_episode_recycler_view"
+                android:id="@+id/bangumi_detail_episode_type_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <include
+                layout="@layout/bangumi_detail_episode" />
 
         </LinearLayout>
 

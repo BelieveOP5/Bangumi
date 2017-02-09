@@ -115,6 +115,8 @@ public class JsoupUtils {
                 } else {
                     episode.setName(strList.get(1));
                 }
+            } else {
+                episode.setName(title);
             }
 
             //将" / 复仇"中的" / "去掉，如果为空则不需要

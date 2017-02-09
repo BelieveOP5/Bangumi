@@ -23,6 +23,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,24 +32,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.wen.bangumi.Bangumi;
 import com.wen.bangumi.R;
 import com.wen.bangumi.base.BaseActivity;
 import com.wen.bangumi.base.QuickAdapter;
-import com.wen.bangumi.entity.EpisodeUpdateReply;
 import com.wen.bangumi.entity.bangumi.EpisodesEntity;
-import com.wen.bangumi.network.RetrofitHelper;
-import com.wen.bangumi.module.user.UserPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * 番剧详细信息界面
@@ -57,9 +49,13 @@ import io.reactivex.schedulers.Schedulers;
 
 public class BangumiDetailActivity extends BaseActivity implements BangumiDetailContract.View{
 
+    @BindView(R.id.bangumi_detail_episode_type_recycler_view)
+    public RecyclerView episodeTypeRecyclerView;
+
     @BindView(R.id.bangumi_detail_episode_recycler_view)
     public RecyclerView episodeRecyclerView;
 
+    public QuickAdapter<EpisodesEntity> episodeTypeAdapter;
     public QuickAdapter<EpisodesEntity.Episode> episodeAdapter;
 
     @BindView(R.id.collapsing_toolbar_layout)
@@ -185,12 +181,42 @@ public class BangumiDetailActivity extends BaseActivity implements BangumiDetail
         episodeRecyclerView.setLayoutManager(new GridLayoutManager(this, 6));
         episodeRecyclerView.setAdapter(episodeAdapter);
 
+        episodeTypeAdapter = new QuickAdapter<EpisodesEntity>(new ArrayList<EpisodesEntity>()) {
+
+            @Override
+            public int getLayoutId(int viewType) {
+                return R.layout.bangumi_detail_episode_item;
+            }
+
+            @Override
+            public void convert(VH holder, final EpisodesEntity data, int position) {
+                holder.setBtnText(R.id.btn, data.getType());
+
+                holder.getView(R.id.btn).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                textView.setText(String.valueOf(data.getEpisodeList().size()));
+                                episodeAdapter.replaceData(data.getEpisodeList());
+                            }
+                        }
+                );
+
+            }
+        };
+
+        episodeTypeRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        episodeTypeRecyclerView.setAdapter(episodeTypeAdapter);
+
     }
 
     @Override
     public void showBangumiEpisode(List<EpisodesEntity> episodesEntities) {
 
+        episodeTypeAdapter.replaceData(episodesEntities);
+
         textView.setText(String.valueOf(episodesEntities.get(0).getEpisodeList().size()));
+
         episodeAdapter.replaceData(episodesEntities.get(0).getEpisodeList());
 
     }
