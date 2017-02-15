@@ -41,5 +41,11 @@
             android:typeface="serif"/>
 
     </LinearLayout>
+    
+    <ImageView
+        android:id="@+id/logout_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/log_out_240"/>
 
 </android.support.design.widget.CoordinatorLayout>
