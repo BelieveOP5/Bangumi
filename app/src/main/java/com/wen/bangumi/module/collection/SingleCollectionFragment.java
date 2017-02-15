@@ -97,14 +97,7 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
                                 intent.putExtra("Bangumi_id", data.getBangumi_id());
                                 intent.putExtra("Name_cn", data.getName_cn());
                                 intent.putExtra("Large_image", data.getLarge_image());
-                                startActivity(
-                                        intent,
-                                        ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                                getActivity(),
-                                                holder.getView(R.id.item_image),
-                                                "image_view"
-                                        ).toBundle()
-                                );
+                                startActivity(intent);
                             }
                         }
                 );
