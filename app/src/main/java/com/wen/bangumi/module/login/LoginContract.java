@@ -1,7 +1,6 @@
 package com.wen.bangumi.module.login;
 
-import com.wen.bangumi.base.BasePresenter;
-import com.wen.bangumi.base.BaseView;
+import com.wen.bangumi.base.BaseContract;
 
 /**
  * Created by BelieveOP5 on 2017/1/25.
@@ -9,7 +8,7 @@ import com.wen.bangumi.base.BaseView;
 
 public interface LoginContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseContract.BaseView<Presenter> {
 
         /**
          * 登录完成，关闭登录界面
@@ -28,7 +27,7 @@ public interface LoginContract {
 
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends BaseContract.BasePresenter {
 
         /**
          * 登录账户

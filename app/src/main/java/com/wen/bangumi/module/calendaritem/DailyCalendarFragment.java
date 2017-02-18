@@ -2,9 +2,7 @@ package com.wen.bangumi.module.calendaritem;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,21 +23,17 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * Created by BelieveOP5 on 2017/1/16.
  */
 
-public class DailyCalendarFragment extends BaseLazyFragment implements DailyCalendarContract.View{
+public class DailyCalendarFragment extends BaseLazyFragment<DailyCalendarContract.Presenter> implements DailyCalendarContract.View{
 
     private WeekDay weekday;
 
     public void setDate(WeekDay weekday) {
         this.weekday = weekday;
     }
-
-    private DailyCalendarContract.Presenter mPresenter;
 
     @BindView(R.id.bangumiList)
     public RecyclerView recyclerView;
@@ -121,7 +115,7 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        mPresenter.loadDailyCalendar(weekday, true);
+                        getPresenter().loadDailyCalendar(weekday, true);
                     }
                 }
         );
@@ -149,19 +143,9 @@ public class DailyCalendarFragment extends BaseLazyFragment implements DailyCale
 
     @Override
     protected void lazyLoad() {
-        mPresenter.subscribe(weekday);
+        getPresenter().subscribe(weekday);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.unsubscribe();
-    }
-
-    @Override
-    public void setPresenter(@NonNull DailyCalendarContract.Presenter presenter) {
-        this.mPresenter = checkNotNull(presenter);
-    }
 
     /**
      * 显示某日的番剧

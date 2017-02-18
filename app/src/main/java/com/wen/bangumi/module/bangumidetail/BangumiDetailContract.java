@@ -1,7 +1,6 @@
 package com.wen.bangumi.module.bangumidetail;
 
-import com.wen.bangumi.base.BasePresenter;
-import com.wen.bangumi.base.BaseView;
+import com.wen.bangumi.base.BaseContract;
 import com.wen.bangumi.entity.bangumi.EpisodesEntity;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
 
 public interface BangumiDetailContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseContract.BaseView<Presenter> {
 
         /**
          * 显示章节信息
@@ -40,7 +39,7 @@ public interface BangumiDetailContract {
 
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends BaseContract.BasePresenter {
 
         void subscribe(int id);
 

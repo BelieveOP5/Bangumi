@@ -1,7 +1,6 @@
 package com.wen.bangumi.module.collection;
 
-import com.wen.bangumi.base.BasePresenter;
-import com.wen.bangumi.base.BaseView;
+import com.wen.bangumi.base.BaseContract;
 import com.wen.bangumi.greenDAO.BangumiItem;
 
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
 
 public interface SingleCollectionContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends BaseContract.BaseView<Presenter> {
 
         /**
          * 显示番剧
@@ -43,7 +42,7 @@ public interface SingleCollectionContract {
 
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends BaseContract.BasePresenter {
 
         void subscribe(BangumiStatus status);
 

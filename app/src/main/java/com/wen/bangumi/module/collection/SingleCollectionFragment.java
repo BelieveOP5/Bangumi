@@ -33,7 +33,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by BelieveOP5 on 2017/1/28.
  */
 
-public class SingleCollectionFragment extends BaseLazyFragment implements SingleCollectionContract.View{
+public class SingleCollectionFragment extends BaseLazyFragment<SingleCollectionContract.Presenter> implements SingleCollectionContract.View{
 
     //这个fragment代表的状态
     private BangumiStatus status;
@@ -55,19 +55,12 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
     private QuickAdapter<BangumiItem> adapter;
     NormalAdapterWrapper<QuickAdapter<BangumiItem>> newAdapter;
 
-    private SingleCollectionContract.Presenter mPresenter;
-
     public static SingleCollectionFragment newInstance(BangumiStatus status) {
         Bundle args = new Bundle();
         SingleCollectionFragment fragment = new SingleCollectionFragment();
         fragment.setStatus(status);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void setPresenter(SingleCollectionContract.Presenter presenter) {
-        this.mPresenter = presenter;
     }
 
     @Override
@@ -180,7 +173,7 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        mPresenter.loadBangumi(status, true);
+                        getPresenter().loadBangumi(status, true);
                     }
                 }
         );
@@ -204,13 +197,7 @@ public class SingleCollectionFragment extends BaseLazyFragment implements Single
 
     @Override
     protected void lazyLoad() {
-        mPresenter.subscribe(status);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.unsubscribe();
+        getPresenter().subscribe(status);
     }
 
     @Override

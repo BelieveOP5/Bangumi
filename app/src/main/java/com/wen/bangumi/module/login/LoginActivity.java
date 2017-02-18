@@ -10,29 +10,34 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.wen.bangumi.base.BaseActivity;
 import com.wen.bangumi.util.Injection;
 import com.wen.bangumi.R;
+
+import butterknife.BindView;
 
 /**
  * Created by BelieveOP5 on 2017/1/24.
  */
 
-public class LoginActivity extends AppCompatActivity implements LoginContract.View{
+public class LoginActivity extends BaseActivity<LoginContract.Presenter> implements LoginContract.View{
 
-    private LoginContract.Presenter mPresenter;
+    @BindView(R.id.login_email_text_input_edit_text)
+    public TextInputEditText mUserTextInput;
 
-    private TextInputEditText mUserTextInput;
-    private TextInputEditText mPwdTextInput;
+    @BindView(R.id.login_password_text_input_edit_text)
+    public TextInputEditText mPwdTextInput;
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.login_act;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_act);
 
         setupToolbar();
-
-        mUserTextInput = (TextInputEditText) findViewById(R.id.login_email_text_input_edit_text);
-        mPwdTextInput = (TextInputEditText) findViewById(R.id.login_password_text_input_edit_text);
 
         new LoginPresenter(
                 Injection.provideLoginRepository(),
@@ -74,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         mSignUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.login(
+                getPresenter().login(
                         mUserTextInput.getText().toString(),
                         mPwdTextInput.getText().toString()
                 );
@@ -90,11 +95,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void showPwdEmptyMessage() {
         // TODO: 2017/1/25  
-    }
-
-    @Override
-    public void setPresenter(LoginContract.Presenter presenter) {
-        this.mPresenter = presenter;
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
+import com.wen.bangumi.Bangumi;
 import com.wen.bangumi.module.home.MainActivity;
 import com.wen.bangumi.module.calendaritem.WeekDay;
 import com.wen.bangumi.greenDAO.BangumiItem;
@@ -78,7 +79,7 @@ public class CalendarRepository implements CalendarInterface {
                 @Override
                 public void subscribe(ObservableEmitter<List<BangumiItem>> e) throws Exception {
                     List<BangumiItem> items = new ArrayList<>();
-                    items.addAll(MainActivity.mActivity.getDaoSession().getBangumiItemDao().queryBuilder()
+                    items.addAll(Bangumi.getInstance().getDaoSession().getBangumiItemDao().queryBuilder()
                             .where(BangumiItemDao.Properties.Air_weekday.eq(weekday.ordinal()))
                             .build().list());
                     e.onNext(items);
@@ -126,7 +127,7 @@ public class CalendarRepository implements CalendarInterface {
     public List<BangumiItem> saveBangumi(@NonNull List<DailyCalendar> mList, @NonNull WeekDay weekday) {
 
         //获取与数据库的连接
-        DaoSession mDaoSession = MainActivity.mActivity.getDaoSession();
+        DaoSession mDaoSession = Bangumi.getInstance().getDaoSession();
 
         //要存到数据库里的数据
         List<BangumiItem> dbList = new ArrayList<>();
@@ -171,7 +172,7 @@ public class CalendarRepository implements CalendarInterface {
     @Override
     public List<BangumiItem> saveBiliBiliBangumi(@NonNull TimeLine_BiliBili mList, @NonNull WeekDay weekday) {
         //获取与数据库的连接
-        DaoSession mDaoSession = MainActivity.mActivity.getDaoSession();
+        DaoSession mDaoSession = Bangumi.getInstance().getDaoSession();
 
         //要存到数据库里的数据
         List<BangumiItem> dbList = new ArrayList<>();

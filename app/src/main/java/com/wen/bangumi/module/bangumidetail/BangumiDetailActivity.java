@@ -47,7 +47,7 @@ import butterknife.BindView;
  * Created by BelieveOP5 on 2017/1/29.
  */
 
-public class BangumiDetailActivity extends BaseActivity implements BangumiDetailContract.View{
+public class BangumiDetailActivity extends BaseActivity<BangumiDetailContract.Presenter> implements BangumiDetailContract.View {
 
     @BindView(R.id.bangumi_detail_episode_type_recycler_view)
     public RecyclerView episodeTypeRecyclerView;
@@ -72,8 +72,6 @@ public class BangumiDetailActivity extends BaseActivity implements BangumiDetail
 
     private BottomSheetDialog dialog;
 
-    private BangumiDetailContract.Presenter mPresenter;
-
     private int id;
     private String name;
     private String largeImage;
@@ -84,23 +82,12 @@ public class BangumiDetailActivity extends BaseActivity implements BangumiDetail
     }
 
     @Override
-    public void setPresenter(BangumiDetailContract.Presenter presenter) {
-        this.mPresenter = presenter;
-    }
-
-    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         BangumiDetailPresent.newInstance(this);
 
-        mPresenter.subscribe(id);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mPresenter.unsubscribe();
+        getPresenter().subscribe(id);
     }
 
     @Override
@@ -256,7 +243,7 @@ public class BangumiDetailActivity extends BaseActivity implements BangumiDetail
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                mPresenter.updateEpisodeStatus(episode, data);
+                                getPresenter().updateEpisodeStatus(episode, data);
                             }
                         }
                 );

@@ -1,21 +1,24 @@
 package com.wen.bangumi.module.home;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +30,6 @@ import com.wen.bangumi.event.Event;
 import com.wen.bangumi.module.user.UserPreferences;
 import com.wen.bangumi.util.Injection;
 import com.wen.bangumi.module.calendaritem.DailyCalendarPresenter;
-import com.wen.bangumi.greenDAO.DaoMaster;
-import com.wen.bangumi.greenDAO.DaoSession;
 import com.wen.bangumi.R;
 import com.wen.bangumi.module.login.LoginActivity;
 import com.wen.bangumi.module.user.HomePageActivity;
@@ -47,12 +48,11 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
+ * 主界面
  * Created by BelieveOP5 on 2017/1/14.
  */
 
 public class MainActivity extends AppCompatActivity {
-
-    public static MainActivity mActivity;
 
     @BindView(R.id.drawer_layout)
     public DrawerLayout mDrawerLayout;
@@ -68,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.viewpager)
     public ViewPager mViewPager;
 
-    private DaoSession mDaoSession;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,14 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        mActivity = this;
-
         EventBus.getDefault().register(this);
-
-        //设置数据库连接
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "bangumi-db", null);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        mDaoSession = new DaoMaster(db).newSession();
 
         setupToolbar();
 
@@ -152,6 +143,46 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(new Intent(MainActivity.this, LoginActivity.class));
                         else
                             startActivity(new Intent(MainActivity.this, HomePageActivity.class));
+                    }
+                }
+        );
+
+        ImageView logoutImageView = (ImageView) navHeaderView.findViewById(R.id.log_out_image_view);
+        logoutImageView.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //先判断有没有登录
+                        if (!UserPreferences.isLogin(Bangumi.getInstance())) {
+                            Snackbar.make(v, "你还没有登录呢！！", Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Bangumi.getInstance());
+                            builder.setTitle("退出登录");
+                            builder.setMessage("你确定要要退出登录吗？？");
+
+                            builder.setPositiveButton("确定",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            UserPreferences.logout(Bangumi.getInstance());
+                                            // TODO: 2017/2/15 完成注销的功能
+                                        }
+                                    }
+                            );
+
+                            builder.setNegativeButton("取消",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    }
+                            );
+
+                            builder.create().show();
+
+                        }
+
                     }
                 }
         );
@@ -229,10 +260,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public DaoSession getDaoSession() {
-        return mDaoSession;
     }
 
     @Override
