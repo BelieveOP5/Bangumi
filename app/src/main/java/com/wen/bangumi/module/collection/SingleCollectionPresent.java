@@ -2,6 +2,7 @@ package com.wen.bangumi.module.collection;
 
 import android.support.annotation.NonNull;
 
+import com.wen.bangumi.base.BasePresenter;
 import com.wen.bangumi.data.CollectionRepository;
 import com.wen.bangumi.greenDAO.BangumiItem;
 
@@ -20,10 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by BelieveOP5 on 2017/1/28.
  */
 
-public class SingleCollectionPresent implements SingleCollectionContract.Presenter {
-
-    @NonNull
-    private SingleCollectionContract.View mSingleCollectionView;
+public class SingleCollectionPresent extends BasePresenter<SingleCollectionContract.View> implements SingleCollectionContract.Presenter {
 
     @NonNull
     private final CollectionRepository mCollectionRepository;
@@ -38,10 +36,10 @@ public class SingleCollectionPresent implements SingleCollectionContract.Present
     public SingleCollectionPresent(@NonNull CollectionRepository collectionRepository,
                                    @NonNull SingleCollectionContract.View view) {
         mCollectionRepository = checkNotNull(collectionRepository, "CollectionRepository cannot be null!");
-        mSingleCollectionView = checkNotNull(view, "SingleCollectionView cannot be null!");
-
         mCompositeDisposable = new CompositeDisposable();
-        mSingleCollectionView.setPresenter(this);
+
+        setView(view);
+        getView().setPresenter(this);
     }
 
     @Override
@@ -74,7 +72,7 @@ public class SingleCollectionPresent implements SingleCollectionContract.Present
 
         if (forceUpdate) {
             mCollectionRepository.refreshBangumi();
-            mSingleCollectionView.setLoadingIndicator(true);
+            getView().setLoadingIndicator(true);
         }
 
         mCompositeDisposable.clear();
@@ -95,14 +93,14 @@ public class SingleCollectionPresent implements SingleCollectionContract.Present
                             @Override
                             public void accept(Throwable throwable) throws Exception {
                                 //onError
-                                mSingleCollectionView.showLoadingBangumiError();
+                                getView().showLoadingBangumiError();
                             }
                         },
                         new Action() {
                             @Override
                             public void run() throws Exception {
                                 //onCompleted
-                                mSingleCollectionView.setLoadingIndicator(false);
+                                getView().setLoadingIndicator(false);
                             }
                         }
                 );
@@ -113,9 +111,9 @@ public class SingleCollectionPresent implements SingleCollectionContract.Present
     private void processBangumi(@NonNull List<BangumiItem> mList) {
         if (mList.isEmpty())
             //没有番剧可以获取
-            mSingleCollectionView.showNoBangumiView();
+            getView().showNoBangumiView();
         else
-            mSingleCollectionView.showBangumiCollection(mList);
+            getView().showBangumiCollection(mList);
     }
 
 }

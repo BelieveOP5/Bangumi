@@ -3,6 +3,7 @@ package com.wen.bangumi.module.bangumidetail;
 import android.support.annotation.NonNull;
 
 import com.wen.bangumi.Bangumi;
+import com.wen.bangumi.base.BasePresenter;
 import com.wen.bangumi.entity.EpisodeUpdateReply;
 import com.wen.bangumi.entity.bangumi.EpisodesEntity;
 import com.wen.bangumi.entity.bangumi.SingleBangumiItem;
@@ -31,18 +32,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by BelieveOP5 on 2017/2/6.
  */
 
-public class BangumiDetailPresent implements BangumiDetailContract.Presenter {
-
-    private BangumiDetailContract.View bangumiDetailView;
+public class BangumiDetailPresent extends BasePresenter<BangumiDetailContract.View> implements BangumiDetailContract.Presenter {
 
     private CompositeDisposable compositeDisposable;
 
     public BangumiDetailPresent(@NonNull BangumiDetailContract.View view,
                                 @NonNull CompositeDisposable compositeDisposable) {
-        this.bangumiDetailView = checkNotNull(view);
         this.compositeDisposable = checkNotNull(compositeDisposable);
 
-        bangumiDetailView.setPresenter(this);
+        setView(view);
+        getView().setPresenter(this);
     }
 
     public static BangumiDetailPresent newInstance(BangumiDetailContract.View view) {
@@ -172,7 +171,7 @@ public class BangumiDetailPresent implements BangumiDetailContract.Presenter {
                 new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
-                        bangumiDetailView.setProgressBar(true);
+                        getView().setProgressBar(true);
                     }
                 }
         ).subscribeOn(Schedulers.io())
@@ -181,7 +180,7 @@ public class BangumiDetailPresent implements BangumiDetailContract.Presenter {
                         new Consumer<List<EpisodesEntity>>() {
                             @Override
                             public void accept(List<EpisodesEntity> episodesEntities) throws Exception {
-                                bangumiDetailView.showBangumiEpisode(episodesEntities);
+                                getView().showBangumiEpisode(episodesEntities);
                             }
                         },
                         new Consumer<Throwable>() {
@@ -193,7 +192,7 @@ public class BangumiDetailPresent implements BangumiDetailContract.Presenter {
                         new Action() {
                             @Override
                             public void run() throws Exception {
-                                bangumiDetailView.setProgressBar(false);
+                                getView().setProgressBar(false);
                             }
                         }
                 );
@@ -205,7 +204,7 @@ public class BangumiDetailPresent implements BangumiDetailContract.Presenter {
     @Override
     public void updateEpisodeStatus(final EpisodesEntity.Episode episode, final String status) {
 
-        RetrofitHelper.getBangumiApi()
+        Disposable disposable = RetrofitHelper.getBangumiApi()
                 .updateEpisodeStatus(
                         episode.getId(),
                         status,
@@ -237,10 +236,12 @@ public class BangumiDetailPresent implements BangumiDetailContract.Presenter {
                         new Action() {
                             @Override
                             public void run() throws Exception {
-                                bangumiDetailView.updateBangumiEpisode(episode);
+                                getView().updateBangumiEpisode(episode);
                             }
                         }
                 );
+
+        compositeDisposable.add(disposable);
 
     }
 }

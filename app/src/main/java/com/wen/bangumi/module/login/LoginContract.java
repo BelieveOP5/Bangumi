@@ -27,7 +27,7 @@ public interface LoginContract {
 
     }
 
-    interface Presenter extends BaseContract.BasePresenter {
+    interface Presenter extends BaseContract.BasePresenter{
 
         /**
          * 登录账户

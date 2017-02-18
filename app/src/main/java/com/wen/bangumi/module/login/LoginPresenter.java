@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.wen.bangumi.Bangumi;
+import com.wen.bangumi.base.BasePresenter;
 import com.wen.bangumi.data.LoginRepository;
 import com.wen.bangumi.event.Event;
 import com.wen.bangumi.entity.user.Token;
@@ -24,13 +25,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by BelieveOP5 on 2017/1/25.
  */
 
-public class LoginPresenter implements LoginContract.Presenter{
+public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
 
     @NonNull
     private final LoginRepository mLoginRepository;
-
-    @NonNull
-    private final LoginContract.View mLoginView;
 
     @NonNull
     private CompositeDisposable mCompositeDisposable;
@@ -38,10 +36,10 @@ public class LoginPresenter implements LoginContract.Presenter{
     public LoginPresenter(@NonNull LoginRepository loginRepository,
                           @NonNull LoginContract.View loginView) {
         this.mLoginRepository = checkNotNull(loginRepository, "loginRepository cannot be null!");
-        this.mLoginView = checkNotNull(loginView, "loginView cannot be null!");
-
         this.mCompositeDisposable = new CompositeDisposable();
-        this.mLoginView.setPresenter(this);
+
+        setView(loginView);
+        getView().setPresenter(this);
     }
 
     @Override
@@ -58,12 +56,12 @@ public class LoginPresenter implements LoginContract.Presenter{
     public void login(String mail, String pwd) {
 
         if (TextUtils.isEmpty(mail)) {
-            mLoginView.showEmailEmptyMessage();
+            getView().showEmailEmptyMessage();
             return;
         }
 
         if (TextUtils.isEmpty(pwd)) {
-            mLoginView.showPwdEmptyMessage();
+            getView().showPwdEmptyMessage();
             return;
         }
 
@@ -84,7 +82,7 @@ public class LoginPresenter implements LoginContract.Presenter{
                                 EventBus.getDefault().postSticky(new Event.LoginEvent());
 
                                 //关闭当前登录界面
-                                mLoginView.loginActivityFinish();
+                                getView().loginActivityFinish();
                             }
                         },
                         new Consumer<Throwable>() {

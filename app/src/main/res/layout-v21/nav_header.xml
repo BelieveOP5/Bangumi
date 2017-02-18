@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    android:background="@color/colorPrimary">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circle_image_view"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="45dp"
+        android:src="@drawable/avatar_default"
+        android:clickable="true"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="start|bottom" >
+
+        <TextView
+            android:id="@+id/username_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_"
+            android:textSize="14sp"
+            android:typeface="serif"/>
+
+        <TextView
+            android:id="@+id/user_info_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_information"
+            android:textSize="14sp"
+            android:typeface="serif"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/log_out_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/log_out"
+        android:layout_gravity="top|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="35dp"
+        android:clickable="true"
+        android:contentDescription="@string/log_out_button"/>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +19,7 @@ import butterknife.BindView;
  * Created by BelieveOP5 on 2017/1/24.
  */
 
-public class LoginActivity extends BaseActivity<LoginContract.Presenter> implements LoginContract.View{
+public class LoginActivity extends BaseActivity<LoginContract.Presenter> implements LoginContract.View {
 
     @BindView(R.id.login_email_text_input_edit_text)
     public TextInputEditText mUserTextInput;
@@ -34,26 +33,23 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void loginActivityFinish() {
+        finish();
+    }
 
-        setupToolbar();
+    @Override
+    protected void initView(@Nullable Bundle savedInstanceState) {
+        initToolbar();
 
         new LoginPresenter(
                 Injection.provideLoginRepository(),
                 this
         );
 
-        setupButton();
-
+        initButton();
     }
 
-    @Override
-    public void loginActivityFinish() {
-        finish();
-    }
-
-    private void setupToolbar() {
+    private void initToolbar() {
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.login_act_toolbar);
         setSupportActionBar(mToolbar);
@@ -65,7 +61,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     }
 
-    private void setupButton() {
+    private void initButton() {
 
         Button mSignInBtn = (Button) findViewById(R.id.sign_up_Btn);
         mSignInBtn.setOnClickListener(new View.OnClickListener() {

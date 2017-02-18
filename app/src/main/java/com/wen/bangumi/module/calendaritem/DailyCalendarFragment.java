@@ -2,32 +2,27 @@ package com.wen.bangumi.module.calendaritem;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.wen.bangumi.base.BaseLazyFragment;
 import com.wen.bangumi.base.QuickAdapter;
 import com.wen.bangumi.greenDAO.BangumiItem;
 import com.wen.bangumi.R;
 import com.wen.bangumi.module.bangumidetail.BangumiDetailActivity;
+import com.wen.bangumi.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by BelieveOP5 on 2017/1/16.
  */
 
-public class DailyCalendarFragment extends BaseLazyFragment<DailyCalendarContract.Presenter> implements DailyCalendarContract.View{
+public class DailyCalendarFragment extends BaseLazyFragment<DailyCalendarContract.Presenter> implements DailyCalendarContract.View {
 
     private WeekDay weekday;
 
@@ -37,11 +32,10 @@ public class DailyCalendarFragment extends BaseLazyFragment<DailyCalendarContrac
 
     @BindView(R.id.bangumiList)
     public RecyclerView recyclerView;
+    private QuickAdapter<BangumiItem> adapter;
 
     @BindView(R.id.noBangumi)
     public View noBangumiView;
-
-    private QuickAdapter<BangumiItem> adapter;
 
     /**
      * 实例化一个DailyCalendarFragment，并返回
@@ -56,6 +50,28 @@ public class DailyCalendarFragment extends BaseLazyFragment<DailyCalendarContrac
         return fragment;
     }
 
+    @Override
+    public int getLayoutResId() {
+        return R.layout.daily_calendar_frag;
+    }
+
+    @Override
+    protected void initViews(View view) {
+
+        initSwipeRefreshLayout(view);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        recyclerView.setAdapter(adapter);
+
+        showBangumiView();
+
+        isPrepared = true;
+
+    }
+
+    /**
+     * 初始化RecyclerView的adapter
+     */
     @Override
     protected void initAdapter() {
 
@@ -87,65 +103,15 @@ public class DailyCalendarFragment extends BaseLazyFragment<DailyCalendarContrac
 
     }
 
-    /**
-     *
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     */
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.daily_calendar_frag, container, false);
-
-        ButterKnife.bind(this, root);
-
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        recyclerView.setAdapter(adapter);
-
-        showBangumiView();
-
-        final SwipeRefreshLayout swipeRefreshLayout =
-                (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
-
-        swipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        getPresenter().loadDailyCalendar(weekday, true);
-                    }
-                }
-        );
-
-        isPrepared = true;
-
-        return root;
-    }
-
-    /**
-     * 当界面加载完成的时候，并且在正确的运行的时候调用该函数
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        //获取数据
-        if (!isPrepared || !isVisible)
-            return;
-
-        lazyLoad();
-        isPrepared = false;
-
+    public void refresh() {
+        getPresenter().loadDailyCalendar(weekday, true);
     }
 
     @Override
     protected void lazyLoad() {
         getPresenter().subscribe(weekday);
     }
-
 
     /**
      * 显示某日的番剧
@@ -182,6 +148,7 @@ public class DailyCalendarFragment extends BaseLazyFragment<DailyCalendarContrac
      */
     @Override
     public void showLoadingBangumiError() {
-        Toast.makeText(getActivity(), "Error while loading Bangumi!!!", Toast.LENGTH_SHORT).show();
+        ToastUtils.showToast(getActivity(), "Error while loading Bangumi!!!");
     }
+
 }

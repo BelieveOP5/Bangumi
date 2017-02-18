@@ -33,7 +33,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by BelieveOP5 on 2017/1/28.
  */
 
-public class SingleCollectionFragment extends BaseLazyFragment<SingleCollectionContract.Presenter> implements SingleCollectionContract.View{
+public class SingleCollectionFragment extends BaseLazyFragment<SingleCollectionContract.Presenter> implements SingleCollectionContract.View {
 
     //这个fragment代表的状态
     private BangumiStatus status;
@@ -61,6 +61,80 @@ public class SingleCollectionFragment extends BaseLazyFragment<SingleCollectionC
         fragment.setStatus(status);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public int getLayoutResId() {
+        return R.layout.single_collection_frag;
+    }
+
+    @Override
+    protected void initViews(View view) {
+
+        initRecyclerView();
+
+        TextView textView = (TextView) view.findViewById(R.id.no_bangumi_text);
+
+        switch (status) {
+            case WISH:
+                textView.setText(getString(R.string.no_wish_bangumi_text));
+                break;
+            case DO:
+                textView.setText(getString(R.string.no_do_bangumi_text));
+                break;
+            case COLLECT:
+                textView.setText(getString(R.string.no_coll_bangumi_text));
+                break;
+            case ON_HOLD:
+                textView.setText(getString(R.string.no_on_hold_bangumi_text));
+                break;
+            case DROPPED:
+                textView.setText(getString(R.string.no_dropped_bangumi_text));
+                break;
+            default:
+                break;
+        }
+
+        showBangumiView();
+
+        initSwipeRefreshLayout(view);
+
+        //视图已经初始化完成
+        isPrepared = true;
+
+    }
+
+    @Override
+    public void refresh() {
+        getPresenter().loadBangumi(status, true);
+    }
+
+    private void initRecyclerView() {
+
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        recyclerView.addOnScrollListener(
+                new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                    }
+
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                        int totalItemCount = linearLayoutManager.getItemCount();
+
+                        if (dy > 0 && lastVisibleItem == totalItemCount - 1) {
+                            ToastUtils.showToast(getContext(), "你拉到最底了！！！");
+                        }
+
+                    }
+                }
+        );
+
+        recyclerView.setAdapter(newAdapter);
     }
 
     @Override
@@ -107,94 +181,6 @@ public class SingleCollectionFragment extends BaseLazyFragment<SingleCollectionC
 
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-
-        View root = inflater.inflate(R.layout.single_collection_frag, container, false);
-
-        ButterKnife.bind(this, root);
-
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        recyclerView.addOnScrollListener(
-                new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                        super.onScrollStateChanged(recyclerView, newState);
-                    }
-
-                    @Override
-                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                        int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                        int totalItemCount = linearLayoutManager.getItemCount();
-
-                        if (dy > 0 && lastVisibleItem == totalItemCount - 1) {
-                            ToastUtils.showToast(getContext(), "你拉到最底了！！！");
-                        }
-
-                    }
-                }
-        );
-
-        recyclerView.setAdapter(newAdapter);
-
-        TextView textView = (TextView) root.findViewById(R.id.no_bangumi_text);
-
-        switch (status) {
-            case WISH:
-                textView.setText(getString(R.string.no_wish_bangumi_text));
-                break;
-            case DO:
-                textView.setText(getString(R.string.no_do_bangumi_text));
-                break;
-            case COLLECT:
-                textView.setText(getString(R.string.no_coll_bangumi_text));
-                break;
-            case ON_HOLD:
-                textView.setText(getString(R.string.no_on_hold_bangumi_text));
-                break;
-            case DROPPED:
-                textView.setText(getString(R.string.no_dropped_bangumi_text));
-                break;
-            default:
-                break;
-        }
-
-        showBangumiView();
-
-        final SwipeRefreshLayout swipeRefreshLayout =
-                (SwipeRefreshLayout) root.findViewById(R.id.refresh_layout);
-
-        swipeRefreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        getPresenter().loadBangumi(status, true);
-                    }
-                }
-        );
-
-        //视图已经初始化完成
-        isPrepared = true;
-        return root;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        //获取数据
-        if (!isPrepared || !isVisible)
-            return;
-
-        lazyLoad();
-        isPrepared = false;
-    }
-
     @Override
     protected void lazyLoad() {
         getPresenter().subscribe(status);
@@ -230,7 +216,7 @@ public class SingleCollectionFragment extends BaseLazyFragment<SingleCollectionC
      */
     @Override
     public void showLoadingBangumiError() {
-        Toast.makeText(getActivity(), "Error while loading Bangumi!!!", Toast.LENGTH_SHORT).show();
+        ToastUtils.showToast(getActivity(), "Error while loading Bangumi!!!");
     }
 
 }

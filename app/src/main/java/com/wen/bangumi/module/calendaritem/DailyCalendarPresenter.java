@@ -2,6 +2,7 @@ package com.wen.bangumi.module.calendaritem;
 
 import android.support.annotation.NonNull;
 
+import com.wen.bangumi.base.BasePresenter;
 import com.wen.bangumi.data.CalendarRepository;
 import com.wen.bangumi.greenDAO.BangumiItem;
 
@@ -20,13 +21,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by BelieveOP5 on 2017/1/17.
  */
 
-public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
+public class DailyCalendarPresenter extends BasePresenter<DailyCalendarContract.View> implements DailyCalendarContract.Presenter {
 
     @NonNull
     private final CalendarRepository mCalendarRepository;
-
-    @NonNull
-    private final DailyCalendarContract.View mDailyCalendarView;
 
     /**
      * RxJava1.0版本的是CompositeSubscription, 对应RxJava2.0版本的CompositeDisposable
@@ -43,15 +41,12 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
     public DailyCalendarPresenter(@NonNull CalendarRepository mCalendarRepository,
                                   @NonNull DailyCalendarContract.View view) {
         this.mCalendarRepository = checkNotNull(mCalendarRepository, "mCalendarRepository cannot be null!");
-        this.mDailyCalendarView = checkNotNull(view, "mDailyCalendarView cannot be null!");
-
         mCompositeDisposable = new CompositeDisposable();
-        view.setPresenter(this);
+
+        setView(view);
+        getView().setPresenter(this);
     }
 
-    /**
-     * 这个类里用不上这个无参的subscribe方法
-     */
     @Override
     public void subscribe() {
 
@@ -90,7 +85,7 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
          */
         if (forceUpdate) {
             mCalendarRepository.refreshBangumi();
-            mDailyCalendarView.setLoadingIndicator(true);
+            getView().setLoadingIndicator(true);
         }
 
         //不管是第一次加载还是需要强制刷新，都应该清除
@@ -117,14 +112,14 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
                             @Override
                             public void accept(Throwable throwable) throws Exception {
                                 //onError
-                                mDailyCalendarView.showLoadingBangumiError();
+                                getView().showLoadingBangumiError();
                             }
                         },
                         new Action() {
                             @Override
                             public void run() throws Exception {
                                 //onCompleted
-                                mDailyCalendarView.setLoadingIndicator(false);
+                                getView().setLoadingIndicator(false);
                             }
                         }
                 );
@@ -135,9 +130,9 @@ public class DailyCalendarPresenter implements DailyCalendarContract.Presenter {
     private void processBangumi(@NonNull List<BangumiItem> mList) {
         if (mList.isEmpty())
             //没有番剧可以获取
-            mDailyCalendarView.showNoBangumiView();
+            getView().showNoBangumiView();
         else
-            mDailyCalendarView.showDailyCalendar(mList);
+            getView().showDailyCalendar(mList);
     }
 
 }
