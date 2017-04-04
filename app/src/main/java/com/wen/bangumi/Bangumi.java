@@ -16,6 +16,11 @@ public class Bangumi extends Application {
 
     private DaoSession mDaoSession;
 
+
+    /**
+     * 获取实例
+     * @return
+     */
     public static Bangumi getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new Bangumi();
