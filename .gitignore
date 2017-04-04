@@ -1,9 +1,12 @@
 *.iml
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
 .DS_Store
 /build
 /captures
 .externalNativeBuild
+
+# .gitignore files #
+.idea
+/app/src/main/java/com/wen/bangumi/network/api/bangumi/
+/app/src/main/java/com/wen/bangumi/network/api/bilibili/
