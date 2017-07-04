@@ -55,5 +55,4 @@ freeline/
 freeline_project_description.json
 
 # .gitignore files #
-/app/src/main/java/com/wen/bangumi/network/api/bangumi/
-/app/src/main/java/com/wen/bangumi/network/api/bilibili/
+app/src/main/java/com/wen/bangumi/network/api/
